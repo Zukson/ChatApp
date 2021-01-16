@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace ChatApp.Dto
 {
-    public class ChatRoom
+    public class ChatRoomDto
     {
         [Key]
         public string Id { get; set; }
-        public List<Message> Messages { get; set; }
+        public List<MessageDto> Messages { get; set; }
         public DateTime LastActivityDate { get; set; }
 
      

@@ -65,7 +65,8 @@ namespace ChatApp
 
             app.UseRouting();
 
-       
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

@@ -1,4 +1,5 @@
-﻿using ChatApp.Settings;
+﻿using ChatApp.Services;
+using ChatApp.Settings;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -43,15 +44,8 @@ namespace ChatApp.Installers
                 x.TokenValidationParameters = tokenValidationParameters;
             }
               );
-            services.AddSwaggerGen(x =>
-            {
-
-                x.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
-                {
-                    Title = "ChatApp ",
-                    Version = "V1"
-                });
-            });
+            services.AddTransient<IIdentityService, IdentityService>();
+           
         }
     }
 }
