@@ -45,6 +45,7 @@ namespace ChatApp.Installers
             }
               );
             services.AddTransient<IIdentityService, IdentityService>();
+            services.AddTransient<IChatService, ChatService>();
            
         }
     }

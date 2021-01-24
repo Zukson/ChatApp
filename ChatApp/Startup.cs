@@ -1,5 +1,6 @@
 using AutoMapper;
 using ChatApp.Data;
+using ChatApp.Hubs;
 using ChatApp.Installers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -33,6 +34,8 @@ namespace ChatApp
 
             InstallerExtensions.Configure(services, Configuration);
             services.AddAutoMapper(typeof(Startup));
+            services.AddCors();
+            services.AddSignalR();
           //  services.AddControllersWithViews();
         }
 
@@ -70,12 +73,21 @@ namespace ChatApp
             app.UseAuthentication();
             app.UseAuthorization();
 
+            app.UseCors(builder => builder
+               .WithOrigins("null")
+               .AllowAnyHeader()
+               .AllowAnyMethod()
+               .AllowCredentials());
+
+      
+          
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
+                endpoints.MapHub<ChatHub>("/chathub");
             });
         }
     }

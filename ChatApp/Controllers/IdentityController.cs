@@ -64,5 +64,21 @@ namespace ChatApp.Controllers
             }
 
         }
+        [HttpPost(ApiRoutes.Identity.Refresh)]
+        public async Task<IActionResult> Refresh([FromBody]RefreshTokenRequest tokenRequest)
+        {
+
+            var response = await _identityService.RefreshTokenAsync(tokenRequest.JwtToken, tokenRequest.RefreshToken);
+            if(response.IsSuccess)
+            {
+                return  Ok(new AuthSuccessResponse { RefreshToken = response.RefreshToken, JwtToken = response.JwtToken });
+
+            }
+
+            else
+            {
+                return BadRequest();
+            }
+        }
     }
 }

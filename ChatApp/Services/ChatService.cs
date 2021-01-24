@@ -28,7 +28,8 @@ namespace ChatApp.Services
             await _chathub.Groups.AddToGroupAsync(connectionId, chat.Id);
          var chatDto=   await _data.ChatRooms.FindAsync(chat.Id);
 
-            var userDto = _mapper.Map<ChatUser, ChatUserDto>(user);
+            var userDto =await  _data.ChatUsers.FindAsync(user.Name);
+            userDto.ChatRooms.Add(chatDto);
            chatDto.Users.Add(userDto);
            await _data.SaveChangesAsync();
         }
@@ -47,11 +48,20 @@ namespace ChatApp.Services
             {
               await   _chathub.Groups.AddToGroupAsync(connectionId, chat.Id);
             }
-            var chatDto = _mapper.Map<ChatRoom, ChatRoomDto>(chat);
+            AddChatToUsers(users, chat);
+           var chatDto = _mapper.Map<ChatRoom, ChatRoomDto>(chat);
          await    _data.ChatRooms.AddAsync(chatDto);
+            await _data.SaveChangesAsync();
             return chat.Id;
         }
+        private void AddChatToUsers(List<ChatUser> users, ChatRoom Chat)
+        {
+            foreach (var user in users)
+            {
+                user.ChatRooms.Add(Chat);
 
-    }
-
+            }
+        }
+    }   
+    
 }
