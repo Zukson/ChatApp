@@ -1,6 +1,9 @@
-﻿using ChatApp.Contracts;
+﻿using AutoMapper;
+using ChatApp.Contracts;
 using ChatApp.Contracts.Requests;
 using ChatApp.Contracts.Responses;
+using ChatApp.Domain;
+using ChatApp.Dto;
 using ChatApp.Services;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -12,14 +15,19 @@ namespace ChatApp.Controllers
 {
     public class IdentityController :Controller
     {
+       
+       
         private readonly IIdentityService _identityService;
-        public IdentityController(IIdentityService identityService)
+        public IdentityController(IIdentityService identityService )
         {
             _identityService = identityService;
+        
         }
         [HttpPost(ApiRoutes.Identity.Register)]
        public async Task<IActionResult> Register([FromBody]UserRegistrationRequest request)
         {
+
+          
             var result = await _identityService.RegisterAsync(request.Password, request.Username, request.Email);
 
             if(!result.IsSuccess)

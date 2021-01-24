@@ -12,6 +12,8 @@ namespace ChatApp.Dto
         public string Name { get; set; }
            
         public string AvatarPath { get; set; }
-        
+
+        ICollection<ChatRoomDto> ChatRooms { get; set; }
+
     }
 }

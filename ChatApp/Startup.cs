@@ -1,3 +1,4 @@
+using AutoMapper;
 using ChatApp.Data;
 using ChatApp.Installers;
 using Microsoft.AspNetCore.Builder;
@@ -31,6 +32,7 @@ namespace ChatApp
         {
 
             InstallerExtensions.Configure(services, Configuration);
+            services.AddAutoMapper(typeof(Startup));
           //  services.AddControllersWithViews();
         }
 

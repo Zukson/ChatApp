@@ -14,10 +14,7 @@ namespace ChatApp.Controllers
         {
             
         }
-        public IActionResult Index()
-        {
-           
-        }
+      
 
         public async Task JoinChat(string id)
         {
