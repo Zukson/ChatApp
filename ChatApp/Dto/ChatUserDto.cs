@@ -13,7 +13,7 @@ namespace ChatApp.Dto
            
         public string AvatarPath { get; set; }
 
-        ICollection<ChatRoomDto> ChatRooms { get; set; }
+   public      ICollection<ChatRoomDto> ChatRooms { get; set; }
 
     }
 }

@@ -10,5 +10,7 @@ namespace ChatApp.Domain
         public string Name { get; set; }
 
         public string AvatarPath { get; set; }
+
+      public   List<ChatRoom> ChatRooms { get; set; }
     }
 }
