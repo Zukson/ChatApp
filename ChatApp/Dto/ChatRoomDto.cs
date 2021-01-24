@@ -11,6 +11,7 @@ namespace ChatApp.Dto
         [Key]
         public string Id { get; set; }
         public List<MessageDto> Messages { get; set; }
+        public List<ChatUserDto> Users { get; set; }
         public DateTime LastActivityDate { get; set; }
 
      
