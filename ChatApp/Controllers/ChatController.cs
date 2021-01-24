@@ -10,10 +10,9 @@ namespace ChatApp.Controllers
 {
     public class ChatController : Controller
     {
-        private readonly IHubContext<ChatHub> _chathub;
-        public ChatController(IHubContext<ChatHub> chathub)
+        public ChatController()
         {
-            _chathub = chathub;
+            
         }
         public IActionResult Index()
         {
