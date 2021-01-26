@@ -8,7 +8,8 @@ namespace ChatApp.Services
 {
    public interface IChatService
     {
-        Task JoinChat(string connectionId, ChatUser user, ChatRoom chat);
-        Task<string> CreateChat(List<string> connectionsId, List<ChatUser> users);
+        Task JoinChatAsync(string connectionId, ChatUser user, ChatRoom chat);
+        Task<string> CreateChatAsync(List<string> connectionsId, List<ChatUser> users);
+        Task SendMessageAsync(Message message, string chatId);
     }
 }

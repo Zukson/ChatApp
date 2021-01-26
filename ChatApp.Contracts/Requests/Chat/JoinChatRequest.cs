@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ChatApp.Contracts.Requests
+namespace ChatApp.Contracts.Requests.Chat
 {
   public   class JoinChatRequest
     {

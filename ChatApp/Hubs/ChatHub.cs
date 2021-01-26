@@ -15,6 +15,7 @@ namespace ChatApp.Hubs
                 SendAsync("ReceiveConnId", Context.ConnectionId);
           
         }
+     
 
         public async Task SendMessage(string chatId,string senderName,string message)
         {

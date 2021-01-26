@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
-using ChatApp.Contracts.Requests;
+using ChatApp.Contracts;
+using ChatApp.Contracts.Requests.Chat;
 using ChatApp.Data;
 using ChatApp.Domain;
 using ChatApp.Dto;
+using ChatApp.Extensions;
 using ChatApp.Hubs;
 using ChatApp.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -32,8 +34,8 @@ namespace ChatApp.Controllers
             _mapper = mapper;
         }
 
- [HttpPost]
-        [Route("chat")]
+ [HttpPost(ApiRoutes.Chat.JoinChat)]
+       
         public async Task<IActionResult> JoinChat([FromBody] JoinChatRequest joinRequest)
         {
             var testuser = this.User.Claims.FirstOrDefault(x => x.Type == "name").Value;
@@ -43,11 +45,19 @@ namespace ChatApp.Controllers
             var chatDto = await _data.ChatRooms.FindAsync(joinRequest.ChatId);
             var user = _mapper.Map<ChatUserDto, ChatUser>(userDto);
             var chat = _mapper.Map<ChatRoomDto, ChatRoom>(chatDto);
-        await    _chatService.JoinChat(connectionId, user, chat);
+        await    _chatService.JoinChatAsync(connectionId, user, chat);
             return Ok();    
 
              
                 
+        }
+        [HttpPost(ApiRoutes.Chat.SendMessage)]
+        public async Task<IActionResult> SendMessage([FromBody]SendMessageRequest messageRequest)
+        {
+            var name = ClaimsExtensions.GetClaimValue(HttpContext.User.Claims, "name");
+            var message = new Message { MessageId = Guid.NewGuid().ToString(), SenderName = name, SendDate = DateTime.UtcNow, Text = messageRequest.Message };
+            await _chatService.SendMessageAsync(message, messageRequest.ChatId);
+            return Ok();
         }
     }
 }

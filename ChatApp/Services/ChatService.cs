@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.SignalR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace ChatApp.Services
@@ -23,7 +24,7 @@ namespace ChatApp.Services
             _data = data;
             _mapper = mapper;
         }
-        public async Task JoinChat(string connectionId,ChatUser user,ChatRoom chat)
+        public async Task JoinChatAsync(string connectionId,ChatUser user,ChatRoom chat)
         {
             await _chathub.Groups.AddToGroupAsync(connectionId, chat.Id);
          var chatDto=   await _data.ChatRooms.FindAsync(chat.Id);
@@ -34,7 +35,7 @@ namespace ChatApp.Services
            await _data.SaveChangesAsync();
         }
 
-        public async Task<string>CreateChat(List<string>connectionsId,List<ChatUser>users)
+        public async Task<string>CreateChatAsync(List<string>connectionsId,List<ChatUser>users)
         {
 
             var chat = new ChatRoom
@@ -61,6 +62,17 @@ namespace ChatApp.Services
                 user.ChatRooms.Add(Chat);
 
             }
+          
+          
+
+
+        }
+        public async Task SendMessageAsync(Message message,string chatId)
+        {
+
+            var serializedMessage = JsonSerializer.Serialize(message);
+            await _chathub.Clients.Group(chatId).SendAsync("receiveMessage", message);
+
         }
     }   
     

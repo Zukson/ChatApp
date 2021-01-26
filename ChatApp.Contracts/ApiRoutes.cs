@@ -16,5 +16,15 @@ namespace ChatApp.Contracts
 
             
         }
+
+        public static class Chat
+        {
+            const string BaseChat = Base + "/" + "identity" + "/";
+
+
+            public const string SendMessage = BaseChat + "/" + "chat" + "/" + "sendmessage";
+            public const string JoinChat = BaseChat + "/" + "chat" + "/" + "joinchat";
+        }
+
     }
 }
