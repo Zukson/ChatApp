@@ -44,7 +44,9 @@ namespace ChatApp.Controllers
             
 
 
-        }
+        } 
+
+      
         [HttpPost(ApiRoutes.Identity.Login)]
         public async Task<IActionResult>Login([FromBody]UserLoginRequest request)
         {
