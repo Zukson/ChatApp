@@ -2,12 +2,5 @@
    
     <span style="margin-left: auto; margin-right: auto;">ChatApp</span>
    
-    <button  mat-icon-button [matMenuTriggerFor]="menu" >
-      
-      <mat-icon>menu</mat-icon>
-    </button>
-    <mat-menu #menu="matMenu">
-    <a routerlink="test" routerLinkActive><button mat-menu-item  >Item 1</button></a>
-      <button mat-menu-item>Item 2</button>
-    </mat-menu>
+ <ng-content> </ng-content>  
   </mat-toolbar>

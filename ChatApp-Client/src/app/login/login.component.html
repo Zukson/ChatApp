@@ -1,14 +1,16 @@
 
+<app-toolbar></app-toolbar>
+<div id="form">
 
 
-<form class="form">
+<form >
     
 
   
     <mat-form-field class="input">
       <mat-label>Email</mat-label>
-      <input type="email" matInput [formControl]="emailFormControl" placeholder="Ex. pat@example.com">
-      <mat-error *ngIf="emailFormControl.hasError('email') && !emailFormControl.hasError('required')">
+      <input type="email" matInput [formControl]="emailFormControl" placeholder="Ex. pat@example.com" (keyup)="buttonState()" (focus)="buttonState()">
+      <mat-error *ngIf="emailFormControl.hasError('email') && !emailFormControl.hasError('required')" >
         Please enter a valid email address
       </mat-error>
       <mat-error *ngIf="emailFormControl.hasError('required')">
@@ -19,13 +21,33 @@
 
     
   </form>
-<form class="form">
+<form >
   <mat-form-field class="input">
     <mat-label>Password</mat-label>
-    <input type="password" matInput [formControl]="passwordFormControl">
+    <input type="password" matInput [formControl]="passwordFormControl" (keyup)="buttonState()" (focus)="buttonState()" >
     <mat-error *ngIf="passwordFormControl.hasError('required') ">
       Please enter password
     </mat-error>
-    
+    <mat-error *ngIf="passwordFormControl.hasError('minlength')"> Passoword must has at least 5 signs</mat-error>
   </mat-form-field>
 </form>
+
+
+
+</div>
+
+
+
+    <button mat-raised-button color="accent" [disabled]="isDisabled">Sign in</button>
+    <p class="message">
+      Don't have an account yet? 
+    </p>
+        
+    <p class="message"> 
+    <a routerLink="register" routerLinkActive><strong>Sign Up</strong></a>  
+    </p>
+   
+     
+   
+ 
+ 
