@@ -34,7 +34,14 @@ namespace ChatApp
 
             InstallerExtensions.Configure(services, Configuration);
             services.AddAutoMapper(typeof(Startup));
-            services.AddCors();
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy", builder => builder.WithOrigins("http://localhost:4200")
+                    .AllowAnyHeader()
+                    .AllowAnyMethod()
+                    .AllowCredentials()
+                    .SetIsOriginAllowed((host) => true));
+            });
             services.AddSignalR();
           //  services.AddControllersWithViews();
         }
@@ -74,7 +81,7 @@ namespace ChatApp
             app.UseAuthorization();
 
             app.UseCors(builder => builder
-               .WithOrigins("null")
+               .WithOrigins("http://localhost:4200")
                .AllowAnyHeader()
                .AllowAnyMethod()
                .AllowCredentials());

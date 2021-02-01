@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 
 namespace ChatApp.Controllers
 {
+  
     public class IdentityController :Controller
     {
        

@@ -18,8 +18,8 @@ using System.Threading.Tasks;
 
 namespace ChatApp.Controllers
 {
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-    [Route("Test")]
+    
+    
     public class ChatController : Controller
     {
         private readonly IChatService _chatService;

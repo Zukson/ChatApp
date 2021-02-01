@@ -19,11 +19,11 @@ namespace ChatApp.Contracts
 
         public static class Chat
         {
-            const string BaseChat = Base + "/" + "identity" + "/";
+            const string BaseChat = Base + "/" + "chat" + "/";
 
 
-            public const string SendMessage = BaseChat + "/" + "chat" + "/" + "sendmessage";
-            public const string JoinChat = BaseChat + "/" + "chat" + "/" + "joinchat";
+            public const string SendMessage = BaseChat +   "sendmessage";
+            public const string JoinChat = BaseChat +  "joinchat";
         }
 
     }
