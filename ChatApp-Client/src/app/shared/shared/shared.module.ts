@@ -8,6 +8,7 @@ import {MatMenuModule} from '@angular/material/menu';
 import { AppRoutingModule } from 'src/app/app-routing.module';
 import {MenulistComponent} from '../menulist/menulist.component';
 import {MatInputModule} from '@angular/material/input';
+import {MatStepperModule} from '@angular/material/stepper';
 @NgModule({
   declarations: [ ToolbarComponent,MenulistComponent],
   imports: [
@@ -18,7 +19,8 @@ import {MatInputModule} from '@angular/material/input';
     MatMenuModule,
     AppRoutingModule,
     MatInputModule,
+    MatStepperModule
   ],
-  exports:[ToolbarComponent,MenulistComponent,  MatButtonModule, MatInputModule]
+  exports:[ToolbarComponent,MenulistComponent,  MatButtonModule, MatInputModule,MatStepperModule]
 })
 export class SharedModule { }

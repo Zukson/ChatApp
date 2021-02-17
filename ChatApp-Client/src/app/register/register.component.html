@@ -1,0 +1,74 @@
+<app-toolbar></app-toolbar>
+<mat-horizontal-stepper #stepper>
+    <mat-step [stepControl]="firstFormGroup"  errorMessage="Name is required." required >
+      <form [formGroup]="firstFormGroup">
+        <ng-template matStepLabel>Fill out your data</ng-template>
+       
+        <mat-form-field  class="input">
+          <mat-error *ngIf="firstFormGroup.controls.name.hasError('required')  " required >
+            Nickname is required!
+           </mat-error> 
+          <mat-label>Name</mat-label>
+          <input matInput placeholder="Nickname" formControlName="name"(keyup)="buttonState()" (focus)="buttonState()" >
+        </mat-form-field>
+
+       <mat-form-field  class="input">
+        <mat-error *ngIf="firstFormGroup.controls.email.hasError('email') &&  !firstFormGroup.controls.email.hasError('required') " >
+          Please enter a valid email address
+        </mat-error>
+        <mat-error *ngIf="firstFormGroup.controls.email.hasError('required')" >
+          Please enter a valid email address
+        </mat-error>
+         <mat-label>Email</mat-label>
+         <input matInput placeholder="ex@gmail.com" formControlName="email"  (keyup)="buttonState()" (focus)="buttonState()" >
+        
+       </mat-form-field>
+       
+       <mat-form-field  class="input">
+        <mat-error *ngIf="firstFormGroup.controls.password.hasError('required')  " >
+          Password is required!
+         </mat-error>
+         <mat-error *ngIf="firstFormGroup.controls.password.hasError('minlength')   " >
+          Passoword must has at least 5 signs
+         </mat-error>
+        <mat-label>Password</mat-label>
+        <input type="password" matInput  formControlName="password" (keyup)="buttonState()" (focus)="buttonState()" >
+      </mat-form-field>
+      </form>
+      
+      <div class="stepperFooter">
+      
+       <button  mat-raised-button matStepperNext [disabled]="isDisabled">Next</button>
+      </div>
+
+    </mat-step>
+     
+    <mat-step>
+      <ng-template matStepLabel>Set your avatar</ng-template>
+    
+      <div class="stepDiv">
+        <input id="myInput" type="file" style="visibility:hidden" />
+        <ngx-avatar src="assets/avatar.jpg" [size]=200 (click)="avatarClicked()"> </ngx-avatar>
+
+      </div>
+      <div class="avatarFooter">
+        <h2>Change your avatar,this step is optional</h2>
+      </div>
+      <button  mat-raised-button matStepperNext >Next</button>
+
+    </mat-step>
+    <mat-step>
+      <ng-template matStepLabel>Done</ng-template>
+      <div id="finishMessage">
+        <h2>
+          Finish registration by clicking the button
+        </h2>
+      </div>
+
+  
+      <div id="finishStepDiv">
+        
+        <button mat-raised-button>Register</button>
+      </div>
+    </mat-step>
+  </mat-horizontal-stepper>
