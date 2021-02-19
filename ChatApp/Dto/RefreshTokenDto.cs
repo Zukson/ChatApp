@@ -29,6 +29,6 @@ namespace ChatApp.Dto
 
 
         [ForeignKey(nameof(UserId))]
-        public IdentityUser User { get; set; }
+        public virtual IdentityUser User { get; set; }
     }
 }

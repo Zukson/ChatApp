@@ -190,7 +190,8 @@ namespace ChatApp.Services
                 JwtId = token.Id,
                 UserId = user.Id,
                 CreationDate = DateTime.UtcNow,
-                ExpiryTime = DateTime.UtcNow.AddMonths(6)
+                ExpiryTime = DateTime.UtcNow.AddMonths(6),
+                User = await _data.Users.FindAsync(user.Id)
 
 
             };

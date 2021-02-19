@@ -5,11 +5,11 @@
         <ng-template matStepLabel>Fill out your data</ng-template>
        
         <mat-form-field  class="input">
-          <mat-error *ngIf="firstFormGroup.controls.name.hasError('required')  " required >
+          <mat-error *ngIf="firstFormGroup.controls.username.hasError('required')  " required >
             Nickname is required!
            </mat-error> 
           <mat-label>Name</mat-label>
-          <input matInput placeholder="Nickname" formControlName="name"(keyup)="buttonState()" (focus)="buttonState()" >
+          <input matInput placeholder="Nickname" formControlName="username"(keyup)="buttonState()" (focus)="buttonState()" >
         </mat-form-field>
 
        <mat-form-field  class="input">
@@ -68,7 +68,7 @@
   
       <div id="finishStepDiv">
         
-        <button mat-raised-button>Register</button>
+        <button mat-raised-button  (click)="register()">Register</button>
       </div>
     </mat-step>
   </mat-horizontal-stepper>

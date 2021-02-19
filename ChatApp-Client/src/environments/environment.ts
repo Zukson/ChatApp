@@ -3,7 +3,18 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+ 
+  user:{
+    postAvatar:'http://localhost:52304/api/v1/user/postAvatar'
+  },
+  
+  identity:{
+       register:'http://localhost:52304/api/v1/identity/register',
+       login:'http://localhost:52304/api/v1/identity/login',
+       refreshToken:'http://localhost:52304/api/v1/identity/refresh'
+
+  }
 };
 
 /*

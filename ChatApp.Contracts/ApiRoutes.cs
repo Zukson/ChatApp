@@ -22,8 +22,18 @@ namespace ChatApp.Contracts
             const string BaseChat = Base + "/" + "chat" + "/";
 
 
-            public const string SendMessage = BaseChat +   "sendmessage";
-            public const string JoinChat = BaseChat +  "joinchat";
+            public const string SendMessage = BaseChat +   "sendMessage";
+            public const string JoinChat = BaseChat +  "joinChat";
+        }
+
+        public static class User
+        {
+            const string BaseUser = Base + "/" + "user" + "/";
+
+            public const string PostUserAvatar = BaseUser + "postAvatar";
+
+
+
         }
 
     }

@@ -13,6 +13,8 @@ namespace ChatApp.Data
         public DbSet<MessageDto> Messages { get; set; }
         public DbSet<ChatUserDto> ChatUsers { get; set; }
         public DbSet<RefreshTokenDto> RefreshTokens{ get; set; }
+
+       
         public DataContext(DbContextOptions<DataContext> options)
             : base(options)
         {

@@ -28,21 +28,27 @@ namespace ChatApp.Controllers
        public async Task<IActionResult> Register([FromBody]UserRegistrationRequest request)
         {
 
-          
-            var result = await _identityService.RegisterAsync(request.Password, request.Username, request.Email);
+           
 
-            if(!result.IsSuccess)
-            {
-                var resultResponse = new AuthFailedResponse { Errors = result.Errors };
-                return   BadRequest(resultResponse);
-            }
+                var result = await _identityService.RegisterAsync(request.Password, request.Username, request.Email);
+                if (!result.IsSuccess)
+                {
+                    var resultResponse = new AuthFailedResponse { Errors = result.Errors };
+                    return BadRequest(resultResponse);
+                }
 
-            else
-            {
-                var resultResponse = new AuthSuccessResponse { JwtToken = result.JwtToken, RefreshToken = result.RefreshToken };
-                return  Ok(resultResponse);
-            }
-            
+                else
+                {
+                    var resultResponse = new AuthSuccessResponse { JwtToken = result.JwtToken, RefreshToken = result.RefreshToken };
+                    return Ok(resultResponse);
+                }
+
+           
+             
+
+
+
+           
 
 
         } 
