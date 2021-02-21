@@ -3,7 +3,7 @@
     <mat-step [stepControl]="firstFormGroup"  errorMessage="Name is required." required >
       <form [formGroup]="firstFormGroup">
         <ng-template matStepLabel>Fill out your data</ng-template>
-       
+      
         <mat-form-field  class="input">
           <mat-error *ngIf="firstFormGroup.controls.username.hasError('required')  " required >
             Nickname is required!
@@ -37,7 +37,7 @@
       </form>
       
       <div class="stepperFooter">
-      
+       
        <button  mat-raised-button matStepperNext [disabled]="isDisabled">Next</button>
       </div>
 
@@ -47,8 +47,8 @@
       <ng-template matStepLabel>Set your avatar</ng-template>
     
       <div class="stepDiv">
-        <input id="myInput" type="file" style="visibility:hidden" />
-        <ngx-avatar src="assets/avatar.jpg" [size]=200 (click)="avatarClicked()"> </ngx-avatar>
+        <input id="myInput" type="file" style="visibility:hidden" (change)="avatarChanged($event)" />
+        <ngx-avatar id="userAvatar" [src]="avatarUrl" [size]=200 (click)="avatarClicked()"> </ngx-avatar>
 
       </div>
       <div class="avatarFooter">

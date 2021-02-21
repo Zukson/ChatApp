@@ -15,7 +15,7 @@ namespace ChatApp.Installers
         public void ConfigureServcies(IConfiguration configuration, IServiceCollection services)
         {
             services.AddDbContext<DataContext>(options =>
-                 options.UseSqlServer(
+                 options.UseInMemoryDatabase(
                      configuration.GetConnectionString("DefaultConnection")));
             services.AddDatabaseDeveloperPageExceptionFilter();
 

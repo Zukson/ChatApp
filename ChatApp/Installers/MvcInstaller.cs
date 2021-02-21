@@ -1,4 +1,5 @@
-﻿using ChatApp.Services;
+﻿using ChatApp.Files;
+using ChatApp.Services;
 using ChatApp.Settings;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
@@ -18,6 +19,10 @@ namespace ChatApp.Installers
         {
             var jwtSettings = new JwtSettings();
             configuration.Bind(nameof(JwtSettings), jwtSettings);
+
+            var fileSettings = new FileSettings();
+            configuration.Bind(nameof(FileSettings), fileSettings);
+            services.AddSingleton(fileSettings);
             services.AddSingleton(jwtSettings);
             var tokenValidationParameters = new TokenValidationParameters
             {
