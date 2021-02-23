@@ -8,6 +8,7 @@
           <mat-error *ngIf="firstFormGroup.controls.username.hasError('required')  " required >
             Nickname is required!
            </mat-error> 
+          
           <mat-label>Name</mat-label>
           <input matInput placeholder="Nickname" formControlName="username"(keyup)="buttonState()" (focus)="buttonState()" >
         </mat-form-field>
@@ -15,6 +16,9 @@
        <mat-form-field  class="input">
         <mat-error *ngIf="firstFormGroup.controls.email.hasError('email') &&  !firstFormGroup.controls.email.hasError('required') " >
           Please enter a valid email address
+        </mat-error>
+        <mat-error *ngIf="emailExists">
+          User with this email already exists
         </mat-error>
         <mat-error *ngIf="firstFormGroup.controls.email.hasError('required')" >
           Please enter a valid email address
@@ -41,13 +45,16 @@
        <button  mat-raised-button matStepperNext [disabled]="isDisabled">Next</button>
       </div>
 
+      <div>
+       
+      </div>
     </mat-step>
      
     <mat-step>
       <ng-template matStepLabel>Set your avatar</ng-template>
     
       <div class="stepDiv">
-        <input id="myInput" type="file" style="visibility:hidden" (change)="avatarChanged($event)" />
+        <input id="myInput" type="file" style="visibility:hidden" (change)="avatarChanged($event)"  accept="image/png, image/jpeg"/>
         <ngx-avatar id="userAvatar" [src]="avatarUrl" [size]=200 (click)="avatarClicked()"> </ngx-avatar>
 
       </div>

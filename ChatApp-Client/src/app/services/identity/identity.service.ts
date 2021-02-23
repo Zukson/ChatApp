@@ -10,27 +10,24 @@ import { stringify } from '@angular/compiler/src/util';
 })
 export class IdentityService {
 
-userModel:UserModel;
- tokens:TokensModel;
+userModel:UserModel={
+  
+  username:'',
+  email:'',
+  password:''
+};
+ tokens:TokensModel= {
+   refreshToken:'',
+ jwtToken:''}
   constructor( private _httpClient:HttpClient) { }
-    registerUser(userModel:UserModel) 
+    registerUser(userModel:UserModel) :Observable<TokensModel>
   {
 
-    return this._httpClient.post<TokensModel>(environment.identity.register,userModel).subscribe(response=>{
-
-      this.tokens.jwtToken=response.jwtToken;
-      this.tokens.refreshToken=response.jwtToken
-      localStorage.setItem('refreshToken',this.tokens.refreshToken)
-      sessionStorage.setItem('jwtToken',this.tokens.refreshToken);
-      this.userModel.email=userModel.email;
-      this.userModel.password=userModel.password;
-      this.userModel.username=userModel.username;
-      
-    })
+   return  this._httpClient.post<TokensModel>(environment.identity.register,userModel);
 
   }
 
-async  Login(userModel:UserModel) : Promise<void>
+async  Login(userModel:UserModel) 
   {
   
     this._httpClient.post<TokensModel>(environment.identity.login,userModel).subscribe(response=>{
@@ -76,6 +73,7 @@ async  Login(userModel:UserModel) : Promise<void>
     {
         if(!this.tokens.refreshToken)
         {
+          
           this.tokens.refreshToken=localStorage.getItem('refreshToken');
           this.tokens.jwtToken=localStorage.getItem('jwtToken');
         }
@@ -93,9 +91,10 @@ async  Login(userModel:UserModel) : Promise<void>
     authorizeClient()
     {
       
-      let headers = new HttpHeaders();
-      headers.set('Authorization',`bearer ${this.tokens.jwtToken} `);
-
+      let headers = new HttpHeaders({'Authorization':`bearer ${this.tokens.jwtToken} `});
+      
+      
+       
       return headers;
     }
 }

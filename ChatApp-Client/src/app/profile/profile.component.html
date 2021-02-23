@@ -1,0 +1,38 @@
+
+<div class="container">
+    <header>
+        <app-toolbar><app-menulist></app-menulist></app-toolbar>
+    </header>
+    
+    <aside >
+        <app-sidebar></app-sidebar>
+    </aside>
+    <main >
+    
+        <mat-card class="example-card">
+            <div class="cardHeader">
+                <mat-card-header>
+           
+                    <mat-card-title>Nick</mat-card-title>
+                    <mat-card-subtitle>Email</mat-card-subtitle>
+                  
+                  </mat-card-header>
+            </div>
+           
+            
+           <div  class="image"><ngx-avatar id="userAvatar"  [src]="avatarUrl" [size]=200 (click)="avatarClicked()" > </ngx-avatar></div> 
+            <mat-card-content style="margin-top: 100px;">
+              
+            </mat-card-content>
+            <mat-card-actions>
+               
+                <button mat-button  (click)="avatarClicked()"> Change avatar</button>
+               <button mat-button>Change nickname</button>
+               <input id="myInput"  type="file" style="visibility:hidden;height: 0px;width: 0xp;"  (change)="avatarChanged($event)" accept="image/png, image/jpeg" />
+              </mat-card-actions>
+            
+          </mat-card>
+    
+    </main>
+    
+</div>

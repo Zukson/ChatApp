@@ -14,8 +14,17 @@ export class UserService {
 
   setUserAvatar(file)
   {
+    console.log('setuUserAvatar')
+    console.log(this._identityService.authorizeClient());
+    let headers = this._identityService.authorizeClient();
+    console.log(headers);
     
-    this._httpClient.post(environment.user.postAvatar,file,{headers: this._identityService.authorizeClient()}).subscribe(response=>console.log(response));
+   let formData =new FormData();
+   formData.append('avatar',file)
+    this._httpClient.post(environment.user.postAvatar,formData,{headers: headers}).subscribe(response=>{
+      console.log(response)
+     
+    });
   }
 
 

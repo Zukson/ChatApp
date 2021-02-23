@@ -11,12 +11,16 @@ import { AvatarModule } from 'ngx-avatar';
 import { HttpClientModule } from '@angular/common/http';
 import{UserService} from './services/user/user.service';
 
+import { ProfileComponent } from './profile/profile.component';
+
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     RegisterComponent,
+  
+    ProfileComponent,
     
    
   ],

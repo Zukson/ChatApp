@@ -5,6 +5,9 @@ import { UserModel } from '../models/user-model';
 import {UserService} from '../services/user/user.service';
 import{IdentityService} from '../services/identity/identity.service';
 import{TokensModel} from '../models/tokens-model';
+import {catchError } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import {Router} from '@angular/router';
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
@@ -18,7 +21,11 @@ export class RegisterComponent implements OnInit {
  userModel:UserModel;
  avatar:HTMLImageElement;
  avatarUrl:string='assets/avatar.jpg';
-  constructor(private _formBuilder: FormBuilder,private _userService:UserService,private _identityService:IdentityService)
+
+ usernameErrorExists:boolean=false
+ emailExists:boolean=false
+ 
+  constructor(private _formBuilder: FormBuilder,private _userService:UserService,private _identityService:IdentityService,private _router:Router)
    { 
     this.firstFormGroup = this._formBuilder.group({
       username: ['', Validators.required],
@@ -62,29 +69,82 @@ avatarClicked()
 {
   document.getElementById('myInput')?.click();
 }
-  async register()
+  register()
 {
+  console.log('rejestruje');
 if(this.firstFormGroup.invalid)
 {
+this.resetStepper();
   console.log(this.stepper);
- this.stepper.previous();
- this.stepper.previous();
+ 
 }
 else
 {
 
+  console.log('spelnia warunki walidacji');
   this.userModel.email=this.firstFormGroup.controls['email'].value;
 this.userModel.username=this.firstFormGroup.controls['username'].value;
 this.userModel.password=this.firstFormGroup.controls['password'].value;
 
-await this._identityService.registerUser(this.userModel);
-
-if(!this.avatar )
+ this._identityService.registerUser(this.userModel).subscribe(response=>{
+   this.SuccesResponse(response);
+  
+  
+},error=>
 {
-  console.log('sending avatar');
-  await this._userService.setUserAvatar(this.avatar);
+  console.log(error);
+ let errorMessage= error.error.errors[0] as string;
+ let userError=errorMessage.search('User');
+ if(userError==-1)
+ {
+   console.log('email')
+ this.emailExists=true;
+ 
+ this.resetStepper();
+ }
+
+ else{
+  
+  console.log('username')
+   this.usernameErrorExists=true;
+
+   this.resetStepper();
+ }
+
+
+});
+
+
+
 }
 
 }
+SuccesResponse(response:TokensModel)
+
+{
+  console.log(response);
+  this._identityService.tokens.jwtToken=response.jwtToken;
+  this._identityService.tokens.refreshToken=response.refreshToken
+  localStorage.setItem('refreshToken',this._identityService.tokens.refreshToken)
+  localStorage.setItem('jwtToken',this._identityService.tokens.jwtToken);
+  this._identityService.userModel.email=this.userModel.email;
+  this._identityService.userModel.password=this.userModel.password;
+  this._identityService.userModel.username=this.userModel.username;
+  
+  console.log(this._identityService.tokens);
+  if(this.avatar )
+  {
+    console.log(this.avatar); 
+  console.log('sending avatar');
+  this._userService.setUserAvatar(this.avatar);
+}
+this._router.navigateByUrl('/profile')
+
+
+}
+resetStepper()
+{
+  this.stepper.previous();
+  this.stepper.previous();
 }
 }

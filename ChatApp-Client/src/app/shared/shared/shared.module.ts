@@ -9,8 +9,12 @@ import { AppRoutingModule } from 'src/app/app-routing.module';
 import {MenulistComponent} from '../menulist/menulist.component';
 import {MatInputModule} from '@angular/material/input';
 import {MatStepperModule} from '@angular/material/stepper';
+import { SidebarComponent } from '../sidebar/sidebar.component';
+import {MatSidenavModule} from '@angular/material/sidenav';
+import {ScrollingModule} from '@angular/cdk/scrolling';
+import {MatCardModule} from '@angular/material/card';
 @NgModule({
-  declarations: [ ToolbarComponent,MenulistComponent],
+  declarations: [ ToolbarComponent,MenulistComponent,SidebarComponent],
   imports: [
     CommonModule,
     MatToolbarModule,
@@ -19,8 +23,11 @@ import {MatStepperModule} from '@angular/material/stepper';
     MatMenuModule,
     AppRoutingModule,
     MatInputModule,
-    MatStepperModule
+    MatStepperModule,
+    MatSidenavModule,
+    ScrollingModule,
+    MatCardModule
   ],
-  exports:[ToolbarComponent,MenulistComponent,  MatButtonModule, MatInputModule,MatStepperModule]
+  exports:[SidebarComponent,ToolbarComponent,MenulistComponent,  MatButtonModule, MatInputModule,MatStepperModule,ScrollingModule,MatCardModule]
 })
 export class SharedModule { }

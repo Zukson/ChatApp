@@ -1,0 +1,42 @@
+main{
+    grid-area: main;
+    width: 100%;
+}
+header{
+    grid-area: header;
+    margin:0px;
+}
+aside{
+    grid-area:sidebar;
+    margin:0px;
+    height: 100%;
+    width:100%
+}
+.container
+{
+    display: grid;
+    grid-template-columns: 1fr 5fr;
+    grid-template-rows: 1fr 12fr;
+    grid-template-areas:"header header"
+                        "sidebar main";
+width: 100%;
+height: 100%;
+}
+.example-card {
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10%;
+  }
+  .image
+  {
+      margin-left: auto;
+      margin-right: auto;
+      height: 200px;
+      width: 200px;
+  }
+.cardHeader
+{ 
+   width: 21%;
+    margin:  auto;
+} 
