@@ -10,6 +10,7 @@ import { stringify } from '@angular/compiler/src/util';
 })
 export class IdentityService {
 
+  isAuthorize:boolean=false
 userModel:UserModel={
   
   username:'',
@@ -19,7 +20,17 @@ userModel:UserModel={
  tokens:TokensModel= {
    refreshToken:'',
  jwtToken:''}
-  constructor( private _httpClient:HttpClient) { }
+  constructor( private _httpClient:HttpClient) { 
+
+    console.log('identity constructor')
+    if(localStorage.getItem('jwtToken'))
+    {
+      this.isAuthorize=true;
+    }
+    
+
+    
+  }
     registerUser(userModel:UserModel) :Observable<TokensModel>
   {
 
@@ -43,6 +54,8 @@ async  Login(userModel:UserModel)
 
     })
   }
+
+
 
 
  

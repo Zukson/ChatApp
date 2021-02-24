@@ -1,12 +1,5 @@
 
-<div class="container">
-    <header>
-        <app-toolbar><app-menulist></app-menulist></app-toolbar>
-    </header>
-    
-    <aside >
-        <app-sidebar></app-sidebar>
-    </aside>
+
     <main >
     
         <mat-card class="example-card">
@@ -26,8 +19,17 @@
             </mat-card-content>
             <mat-card-actions>
                
+               <div class="button">
                 <button mat-button  (click)="avatarClicked()"> Change avatar</button>
-               <button mat-button>Change nickname</button>
+               </div> 
+               <div class="button">
+                <button mat-button>Change nickname</button>
+               </div>
+               <div class="button">
+                <button mat-button>Save changes</button>
+            </div>
+             
+              
                <input id="myInput"  type="file" style="visibility:hidden;height: 0px;width: 0xp;"  (change)="avatarChanged($event)" accept="image/png, image/jpeg" />
               </mat-card-actions>
             
@@ -35,4 +37,4 @@
     
     </main>
     
-</div>
+

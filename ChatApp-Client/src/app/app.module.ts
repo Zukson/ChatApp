@@ -12,6 +12,8 @@ import { HttpClientModule } from '@angular/common/http';
 import{UserService} from './services/user/user.service';
 
 import { ProfileComponent } from './profile/profile.component';
+import { MainComponent } from './main/main.component';
+import { IdentityService } from './services/identity/identity.service';
 
 
 @NgModule({
@@ -21,6 +23,8 @@ import { ProfileComponent } from './profile/profile.component';
     RegisterComponent,
   
     ProfileComponent,
+  
+    MainComponent,
     
    
   ],
@@ -36,7 +40,7 @@ import { ProfileComponent } from './profile/profile.component';
     HttpClientModule
 
   ],
-  providers: [ UserService],
+  providers: [ UserService,IdentityService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

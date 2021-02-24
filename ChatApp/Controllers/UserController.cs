@@ -1,4 +1,6 @@
 ﻿using ChatApp.Contracts;
+using ChatApp.Extensions;
+using ChatApp.Files;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -11,14 +13,24 @@ using System.Threading.Tasks;
 namespace ChatApp.Controllers
 {
 
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+   
     public class UserController : Controller
     {
-        
+        private readonly IFileManager _fileManager;
+        public UserController(IFileManager fileManager)
+        {
+            _fileManager = fileManager;
+        }
         [HttpPost(ApiRoutes.User.PostUserAvatar)]
         public async Task<IActionResult>PostUserAvatar(IFormFile avatar)
         {
+            var username = ClaimsExtensions.GetClaimValue(HttpContext.User.Claims, "name");
+
+           await  _fileManager.SaveTemporaryAvatarAsync(username, avatar);
+
             return Ok();
+
+           
         }
     }
 }

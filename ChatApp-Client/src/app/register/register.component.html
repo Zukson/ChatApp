@@ -6,7 +6,7 @@
       
         <mat-form-field  class="input">
           <mat-error *ngIf="firstFormGroup.controls.username.hasError('required')  " required >
-            Nickname is required!
+            Nickname is <strong>required!</strong>
            </mat-error> 
           
           <mat-label>Name</mat-label>
@@ -15,22 +15,22 @@
 
        <mat-form-field  class="input">
         <mat-error *ngIf="firstFormGroup.controls.email.hasError('email') &&  !firstFormGroup.controls.email.hasError('required') " >
-          Please enter a valid email address
+          Please enter a <strong>valid email address</strong>
         </mat-error>
         <mat-error *ngIf="emailExists">
           User with this email already exists
         </mat-error>
         <mat-error *ngIf="firstFormGroup.controls.email.hasError('required')" >
-          Please enter a valid email address
+          Email address is <strong>required</strong>
         </mat-error>
          <mat-label>Email</mat-label>
-         <input matInput placeholder="ex@gmail.com" formControlName="email"  (keyup)="buttonState()" (focus)="buttonState()" >
+         <input matInput placeholder="ex@gmail.com" formControlName="email"  (keyup)="buttonState()" (focus)="buttonState()"  accept="image/png, image/jpeg">
         
        </mat-form-field>
        
        <mat-form-field  class="input">
         <mat-error *ngIf="firstFormGroup.controls.password.hasError('required')  " >
-          Password is required!
+          Password is <strong>required!</strong>
          </mat-error>
          <mat-error *ngIf="firstFormGroup.controls.password.hasError('minlength')   " >
           Passoword must has at least 5 signs

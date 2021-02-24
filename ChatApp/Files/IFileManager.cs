@@ -1,17 +1,22 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace ChatApp.Files
 {
-    interface  IFileManager
+  public  interface  IFileManager
     {
-        bool TemporaryFileExists(string fileName);
+        bool AvatarExists(string fileName);
 
-        Task SaveTemporaryFile(string fileName);
+        Task SaveAvatarAsync(string fileName);
 
-        Task DeleteTemporaryFile(string fileName);
+        Task DeleteAvatarAsync(string fileName);
+
+        Task SaveTemporaryAvatarAsync(string fileName,IFormFile avatar);
+
+       
 
 
 

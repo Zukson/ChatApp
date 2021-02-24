@@ -49,8 +49,9 @@ namespace ChatApp.Installers
                 x.TokenValidationParameters = tokenValidationParameters;
             }
               );
-            services.AddTransient<IIdentityService, IdentityService>();
-            services.AddTransient<IChatService, ChatService>();
+            services.AddScoped<IIdentityService, IdentityService>();
+            services.AddScoped<IChatService, ChatService>();
+            services.AddScoped<IFileManager, FileManager>();
            
         }
     }
