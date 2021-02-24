@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace ChatApp.Files
 {
-    public class FileSettings
+    public class ImageSettings
     {
         public string TemporaryAvatarPath { get; set; }
         public string ThumbnailPath { get; set; }

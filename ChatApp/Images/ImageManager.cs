@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Processing;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -8,15 +10,16 @@ using System.Threading.Tasks;
 
 namespace ChatApp.Files
 {
-    public class FileManager : IFileManager
+    public class ImageManager : IImageManager
     {
-        private readonly FileSettings _fileSsettings;
+        private readonly ImageSettings _fileSsettings;
         private readonly IWebHostEnvironment _enviroment;
 
+       
         private readonly string _tmpAvatarPath;
         private readonly string _avatarPath;
         private readonly string _thumbnailPath;
-        public FileManager(FileSettings fileSettings,IWebHostEnvironment environment)
+        public ImageManager(ImageSettings fileSettings,IWebHostEnvironment environment)
         {
             _fileSsettings = fileSettings;
             _enviroment = environment;
@@ -26,24 +29,31 @@ namespace ChatApp.Files
         }
         public bool AvatarExists(string fileName)
         {
-            throw new NotImplementedException();
+            return File.Exists(Path.Combine(_avatarPath, fileName));
         }
 
-        public Task DeleteAvatarAsync(string fileName)
+       
+
+        public Task DeleteImageAsync(string path)
         {
             throw new NotImplementedException();
         }
 
-        public Task SaveAvatarAsync(string fileName)
+        public  async Task SaveImageAsync(string temporaryPath,string path,int size)
         {
-            throw new NotImplementedException();
+            using Image image = Image.Load(temporaryPath)
+;
+            image.Mutate(x => x.Resize(size, size));
+            await image.SaveAsync(path);
         }
 
-        public  async Task SaveTemporaryAvatarAsync(string username, IFormFile avatar)
+     
+        public  async Task SaveTemporaryAvatarAsync(string path, IFormFile avatar)
         {
-            var path = GetTemporaryAvatarPath(username);
-            string fileType = avatar.FileName.Split('.')[1];
-            path = path +'.'+ fileType;
+        
+         
+          
+           
             using FileStream fs = new FileStream(path,FileMode.Create,FileAccess.Write);
             {
                 await avatar.CopyToAsync(fs);
@@ -54,9 +64,23 @@ namespace ChatApp.Files
     
         }
 
-        private string   GetTemporaryAvatarPath(string username)
+       
+
+      public  string   GetAvatarPath(string fileName,string username,ImageType imageType)
         {
-            return Path.Combine(_tmpAvatarPath, $"tmp_{username}");
+            string fileType = fileName.Split('.')[1];
+
+            var pathByType = imageType switch
+            {
+                ImageType.Avatar => _avatarPath,
+                ImageType.TemporaryAvatar => _tmpAvatarPath,
+                ImageType.Thumbnail => _thumbnailPath
+            };
+            return Path.Combine(pathByType,$"{username}.{fileType}");
         }
+
+        
+
+       
     }
 }

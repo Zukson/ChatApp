@@ -16,8 +16,8 @@ namespace ChatApp.Controllers
    
     public class UserController : Controller
     {
-        private readonly IFileManager _fileManager;
-        public UserController(IFileManager fileManager)
+        private readonly IImageManager _fileManager;
+        public UserController(IImageManager fileManager)
         {
             _fileManager = fileManager;
         }

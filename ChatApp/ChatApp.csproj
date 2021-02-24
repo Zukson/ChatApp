@@ -28,9 +28,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Files\Avatars\" />
-    <Folder Include="Files\TemporaryAvatars\" />
-    <Folder Include="Files\Thumbnails\" />
+    <Folder Include="Images\Avatars\" />
+    <Folder Include="Images\TemporaryAvatars\" />
+    <Folder Include="Images\Thumbnails\" />
   </ItemGroup>
 
 </Project>

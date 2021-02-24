@@ -20,8 +20,8 @@ namespace ChatApp.Installers
             var jwtSettings = new JwtSettings();
             configuration.Bind(nameof(JwtSettings), jwtSettings);
 
-            var fileSettings = new FileSettings();
-            configuration.Bind(nameof(FileSettings), fileSettings);
+            var fileSettings = new ImageSettings();
+            configuration.Bind(nameof(ImageSettings), fileSettings);
             services.AddSingleton(fileSettings);
             services.AddSingleton(jwtSettings);
             var tokenValidationParameters = new TokenValidationParameters
@@ -51,7 +51,7 @@ namespace ChatApp.Installers
               );
             services.AddScoped<IIdentityService, IdentityService>();
             services.AddScoped<IChatService, ChatService>();
-            services.AddScoped<IFileManager, FileManager>();
+            services.AddScoped<IImageManager, ImageManager>();
            
         }
     }
