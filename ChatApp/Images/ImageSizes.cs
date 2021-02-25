@@ -7,8 +7,8 @@ namespace ChatApp.Files
 {
     public struct ImageSizes
     {
-       public static  int AvatarSize=200;
+       public  const  int AvatarSize=200;
 
-        public static int ThumbnailSize = 40;
+        public const  int ThumbnailSize = 40;
     }
 }

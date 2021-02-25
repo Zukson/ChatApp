@@ -51,7 +51,7 @@ namespace ChatApp.Installers
               );
             services.AddScoped<IIdentityService, IdentityService>();
             services.AddScoped<IChatService, ChatService>();
-            services.AddScoped<IImageManager, ImageManager>();
+            services.AddSingleton<IImageManager, ImageManager>();
            
         }
     }

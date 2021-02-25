@@ -1,4 +1,5 @@
 using AutoMapper;
+using ChatApp.BackgroundServices;
 using ChatApp.Data;
 using ChatApp.Hubs;
 using ChatApp.Installers;
@@ -14,7 +15,9 @@ using Microsoft.Extensions.Hosting;
 using MyShop.API.Settings;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Threading.Channels;
 using System.Threading.Tasks;
 
 namespace ChatApp
@@ -26,6 +29,29 @@ namespace ChatApp
             Configuration = configuration;
         }
 
+        private void CleanImages()
+        {
+            DirectoryInfo dfTmp = new DirectoryInfo(@"E:\ChatApp\ChatApp\ChatApp\Images\TemporaryAvatars");
+            DirectoryInfo dfA = new DirectoryInfo(@"E:\ChatApp\ChatApp\ChatApp\Images\Avatars");
+            DirectoryInfo dfT= new DirectoryInfo(@"E:\ChatApp\ChatApp\ChatApp\Images\Thumbnails");
+
+            foreach (var file in dfTmp.EnumerateFiles())
+            {
+                file.Delete();
+            }
+                foreach (var file in dfA.EnumerateFiles())
+                {
+                    file.Delete();
+                }
+                foreach (var file in dfT.EnumerateFiles())
+                {
+                    file.Delete();
+                }
+            
+            }
+
+       
+
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -33,6 +59,9 @@ namespace ChatApp
         {
 
             InstallerExtensions.Configure(services, Configuration);
+            services.AddSingleton(_ => Channel.CreateUnbounded<ImageMessage>());
+            services.AddHostedService<ImageBackGroundService>();
+
             services.AddAutoMapper(typeof(Startup));
             services.AddCors(options =>
             {
@@ -49,6 +78,7 @@ namespace ChatApp
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            CleanImages();
             var swaggerSettings = new SwaggerSettings();
             Configuration.GetSection(nameof(SwaggerSettings))
                 .Bind(swaggerSettings);

@@ -19,13 +19,14 @@ namespace ChatApp.Files
         private readonly string _tmpAvatarPath;
         private readonly string _avatarPath;
         private readonly string _thumbnailPath;
+        const string baseDirectory = "Images";
         public ImageManager(ImageSettings fileSettings,IWebHostEnvironment environment)
         {
             _fileSsettings = fileSettings;
             _enviroment = environment;
-            _tmpAvatarPath = Path.Combine(_enviroment.ContentRootPath,"Files", _fileSsettings.TemporaryAvatarPath);
-            _avatarPath = Path.Combine(_enviroment.ContentRootPath, "Files", _fileSsettings.AvatarPath);
-            _thumbnailPath = Path.Combine(_enviroment.ContentRootPath, "Files", _fileSsettings.ThumbnailPath);
+            _tmpAvatarPath = Path.Combine(_enviroment.ContentRootPath, baseDirectory, _fileSsettings.TemporaryAvatarPath);
+            _avatarPath = Path.Combine(_enviroment.ContentRootPath, baseDirectory, _fileSsettings.AvatarPath);
+            _thumbnailPath = Path.Combine(_enviroment.ContentRootPath, baseDirectory, _fileSsettings.ThumbnailPath);
         }
         public bool AvatarExists(string fileName)
         {
@@ -34,9 +35,15 @@ namespace ChatApp.Files
 
        
 
-        public Task DeleteImageAsync(string path)
+        public   void  DeleteImage(string path)
         {
-            throw new NotImplementedException();
+            FileInfo file = new FileInfo(path);
+            
+            if(file.Exists)
+            {
+                file.Delete();
+            }
+
         }
 
         public  async Task SaveImageAsync(string temporaryPath,string path,int size)

@@ -13,16 +13,17 @@ namespace ChatApp.Files
         Task SaveImageAsync(string temporaryPath,string path,int size);
        
 
-        Task DeleteImageAsync(string path);
+     void  DeleteImage(string path);
 
         Task SaveTemporaryAvatarAsync(string path,IFormFile avatar);
 
-       
+
+        string GetAvatarPath(string fileName, string username, ImageType imageType);
 
 
 
 
-        
+
 
 
     }
