@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -8,7 +9,7 @@ namespace ChatApp.Files
 {
   public  interface  IImageManager
     {
-        bool AvatarExists(string path);
+        FileStream GetImage(string path);
 
         Task SaveImageAsync(string temporaryPath,string path,int size);
        

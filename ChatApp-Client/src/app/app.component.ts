@@ -18,6 +18,8 @@ export class AppComponent implements OnInit{
     else{
       this._router.navigate(['login'])
     }
+    this._router.navigate(['register']);
+  
   }
   title = 'ChatApp-Client';
 }

@@ -48,5 +48,12 @@ namespace ChatApp.Controllers
 
            
         }
+
+        [HttpGet(ApiRoutes.User.GetUserAvatar)]
+
+        public async Task<IActionResult>GetUserAvatar([FromQuery]string username)
+        {
+            _fileManager.GetImage()
+        }
     }
 }

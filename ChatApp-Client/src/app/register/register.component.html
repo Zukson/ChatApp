@@ -45,8 +45,8 @@
        <button  mat-raised-button matStepperNext [disabled]="isDisabled">Next</button>
       </div>
 
-      <div>
-       
+      <div id="errorMessage" *ngIf="errorMessage">
+     {{errorMessage}}
       </div>
     </mat-step>
      

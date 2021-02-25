@@ -22,6 +22,7 @@ export class RegisterComponent implements OnInit {
  avatar:HTMLImageElement;
  avatarUrl:string='assets/avatar.jpg';
 
+ errorMessage:string=''
  usernameErrorExists:boolean=false
  emailExists:boolean=false
  
@@ -71,6 +72,7 @@ avatarClicked()
 }
   register()
 {
+  this.errorMessage='';
   console.log('rejestruje');
 if(this.firstFormGroup.invalid)
 {
@@ -93,24 +95,9 @@ this.userModel.password=this.firstFormGroup.controls['password'].value;
 },error=>
 {
   console.log(error);
- let errorMessage= error.error.errors[0] as string;
- let userError=errorMessage.search('User');
- if(userError==-1)
- {
-   console.log('email')
- this.emailExists=true;
- 
+ this.errorMessage= error.error.errors[0] as string;
  this.resetStepper();
- }
-
- else{
-  
-  console.log('username')
-   this.usernameErrorExists=true;
-
-   this.resetStepper();
- }
-
+ 
 
 });
 

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Processing;
 using System;
@@ -28,9 +29,9 @@ namespace ChatApp.Files
             _avatarPath = Path.Combine(_enviroment.ContentRootPath, baseDirectory, _fileSsettings.AvatarPath);
             _thumbnailPath = Path.Combine(_enviroment.ContentRootPath, baseDirectory, _fileSsettings.ThumbnailPath);
         }
-        public bool AvatarExists(string fileName)
+       private bool ImageExists(string path)
         {
-            return File.Exists(Path.Combine(_avatarPath, fileName));
+            return File.Exists(path);
         }
 
        
@@ -45,7 +46,18 @@ namespace ChatApp.Files
             }
 
         }
+        public FileStream GetImage(string path)
+        {
+            if(ImageExists(path))
+            {
+                using FileStream stream =  new FileStream(path,FileMode.Open,FileAccess.Read);
 
+                return stream;
+            }
+
+            return null;
+        }
+       
         public  async Task SaveImageAsync(string temporaryPath,string path,int size)
         {
             using Image image = Image.Load(temporaryPath)
