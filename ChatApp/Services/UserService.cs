@@ -1,4 +1,5 @@
 ﻿using ChatApp.Data;
+using ChatApp.Dto;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,12 @@ namespace ChatApp.Services
         {
             _db = db;
         }
+
+        public async Task CreateAsync(string username)
+        {
+            await _db.ChatUsers.AddAsync(new ChatUserDto { Name = username });
+        }
+
         public async Task<string> GetImagePathAsync(string username)
         {
             var user = await _db.ChatUsers.FindAsync(username);

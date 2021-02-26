@@ -22,13 +22,15 @@ namespace ChatApp.Services
         private readonly UserManager<IdentityUser> _userManager;
         private readonly TokenValidationParameters _tokenValidationParameters;
         private readonly JwtSettings _jwtSettings;
+        private readonly IUserService _userService;
 
-        public IdentityService(DataContext data, UserManager<IdentityUser> userManager, TokenValidationParameters tokenValidationParameters, JwtSettings jwtSettings)
+        public IdentityService(IUserService userService,DataContext data, UserManager<IdentityUser> userManager, TokenValidationParameters tokenValidationParameters, JwtSettings jwtSettings)
         {
             _data = data;
             _userManager = userManager;
             _tokenValidationParameters = tokenValidationParameters;
             _jwtSettings = jwtSettings;
+            _userService = userService;
         }
         public async Task<AuthenticationResult> RegisterAsync(string password, string username, string email)
         {
@@ -53,6 +55,7 @@ namespace ChatApp.Services
             };
 
             var result = await _userManager.CreateAsync(user, password);
+            await _userService.CreateAsync(username);
 
             await _data.SaveChangesAsync();
             return await GenereteAuthenticationForUser(user);

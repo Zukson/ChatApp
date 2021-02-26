@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-
+import {UserService} from '../services/user/user.service';
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit {
-avatarUrl="assets/avatar.jpg"
-  constructor() { }
+avatarUrl=""
+  constructor(private _userService:UserService) { }
   avatarClicked()
   {
     document.getElementById('myInput')?.click();
@@ -27,6 +27,7 @@ reader.onload=(event)=>{
 }
   }
     ngOnInit(): void {
+     this.avatarUrl= this._userService.avatarUrl
   }
 
 }

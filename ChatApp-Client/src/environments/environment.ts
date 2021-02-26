@@ -6,7 +6,8 @@ export const environment = {
   production: false,
  
   user:{
-    postAvatar:'http://localhost:52304/api/v1/user/postAvatar'
+    postAvatar:'http://localhost:52304/api/v1/user/postAvatar',
+    getAvatar:'http://localhost:52304/api/v1/user/getAvatar'
   },
   
   identity:{

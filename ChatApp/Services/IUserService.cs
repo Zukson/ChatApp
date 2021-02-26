@@ -5,10 +5,12 @@ using System.Threading.Tasks;
 
 namespace ChatApp.Services
 {
-    interface IUserService
+   public  interface IUserService
     {
         public Task<string> GetImagePathAsync(string username);
 
         public Task SetImagePathAsync(string path, string username);
+
+        public Task CreateAsync(string username);
     }
 }

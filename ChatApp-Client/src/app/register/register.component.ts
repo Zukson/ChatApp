@@ -20,7 +20,7 @@ export class RegisterComponent implements OnInit {
  isDisabled:boolean=true;
  userModel:UserModel;
  avatar:HTMLImageElement;
- avatarUrl:string='assets/avatar.jpg';
+ avatarUrl:string='assets/default.png';
 
  errorMessage:string=''
  usernameErrorExists:boolean=false

@@ -2,6 +2,7 @@
 using ChatApp.Contracts;
 using ChatApp.Extensions;
 using ChatApp.Files;
+using ChatApp.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -16,6 +17,7 @@ namespace ChatApp.Controllers
 {
 
    
+   [Authorize]
     public class UserController : Controller
     {
         private readonly IImageManager _fileManager;
@@ -51,9 +53,17 @@ namespace ChatApp.Controllers
 
         [HttpGet(ApiRoutes.User.GetUserAvatar)]
 
-        public async Task<IActionResult>GetUserAvatar([FromQuery]string username)
+        public async Task<IActionResult>GetUserAvatar([FromQuery]string username,[FromServices]IUserService userService)
         {
-            _fileManager.GetImage()
+          string path =await  userService.GetImagePathAsync(ClaimsExtensions.GetClaimValue(HttpContext.User.Claims,"name"));
+
+            if (string.IsNullOrEmpty(path))
+            {
+                return BadRequest();
+            }
+
+          var stream=   _fileManager.GetImage(path);
+            return new FileStreamResult(stream,"image/*");
         }
     }
 }
