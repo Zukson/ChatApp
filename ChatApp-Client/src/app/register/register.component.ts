@@ -114,9 +114,7 @@ SuccesResponse(response:TokensModel)
   this._identityService.tokens.refreshToken=response.refreshToken
   localStorage.setItem('refreshToken',this._identityService.tokens.refreshToken)
   localStorage.setItem('jwtToken',this._identityService.tokens.jwtToken);
-  this._identityService.userModel.email=this.userModel.email;
-  this._identityService.userModel.password=this.userModel.password;
-  this._identityService.userModel.username=this.userModel.username;
+  
   
   console.log(this._identityService.tokens);
   if(this.avatar )
@@ -124,8 +122,10 @@ SuccesResponse(response:TokensModel)
     console.log(this.avatar); 
   console.log('sending avatar');
   this._userService.setUserAvatar(this.avatar);
+  this._userService.avatarUrl=this.avatarUrl;
+  
 }
-this._router.navigateByUrl('/profile')
+this._router.navigateByUrl('/main')
 
 
 }

@@ -6,7 +6,7 @@ import {UserService} from '../services/user/user.service';
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit {
-avatarUrl=""
+avatarUrl='';
   constructor(private _userService:UserService) { }
   avatarClicked()
   {

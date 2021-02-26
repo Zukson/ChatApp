@@ -1,7 +1,9 @@
 
 <app-toolbar></app-toolbar>
 <div id="form">
-
+  <div id="errorMessage" *ngIf="errorMessage">
+    {{errorMessage}}
+     </div>
 
 <form >
     
@@ -39,7 +41,7 @@
 
 
 
-    <button mat-raised-button color="accent" [disabled]="isDisabled">Sign in</button>
+    <button mat-raised-button color="accent" [disabled]="isDisabled" (click)="signIn()">Sign in</button>
     <p class="message">
       Don't have an account yet? 
     </p>
@@ -47,6 +49,8 @@
     <p class="message"> 
     <a routerLink="/register" routerLinkActive><strong>Sign Up</strong></a>  
     </p>
+
+  
    
      
    

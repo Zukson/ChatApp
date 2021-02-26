@@ -14,23 +14,32 @@ avatarUrl:string='assets/default.jpg';
 
   getUserAvatar()
   {
-    let headers = this._identityService.authorizeClient();
+    if(this.avatarUrl=='assets/default.jpg')
+    {
+      let headers = this._identityService.authorizeClient();
 
-this._httpClient.get(environment.user.getAvatar,{headers:headers,responseType:'blob'}).subscribe(response=>
-  {
-    let reader = new FileReader();
-
-      reader.readAsDataURL(response);
+      this._httpClient.get(environment.user.getAvatar,{headers:headers,responseType:'blob'}).subscribe(response=>
+        {
+         
+          
       
-      reader.onload=(event)=>{
-     
-        this.avatarUrl=event.target.result as string ;
-  },error=>
-  {
-console.log(error);
-  }});
-
-  }
+          
+          let reader = new FileReader();
+      
+            reader.readAsDataURL(response);
+            
+            reader.onload=(event)=>{
+           
+              this.avatarUrl=event.target.result as string ;
+        },error=>
+        {
+      console.log(error);
+        }});
+      
+        }
+      return this.avatarUrl
+    }
+    
 
   
   setUserAvatar(file)

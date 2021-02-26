@@ -5,18 +5,14 @@ import{UserModel} from '../../models/user-model'
 import { Observable } from 'rxjs/internal/Observable';
 import{TokensModel} from '../../models/tokens-model';
 import { stringify } from '@angular/compiler/src/util';
+import{LoginModel} from '../../models/login-model';
 @Injectable({
   providedIn: 'root'
 })
 export class IdentityService {
 
   isAuthorize:boolean=false
-userModel:UserModel={
-  
-  username:'',
-  email:'',
-  password:''
-};
+
  tokens:TokensModel= {
    refreshToken:'',
  jwtToken:''}
@@ -25,6 +21,7 @@ userModel:UserModel={
     console.log('identity constructor')
     if(localStorage.getItem('jwtToken'))
     {
+      console.log('jwt is there')
       this.isAuthorize=true;
     }
     
@@ -38,21 +35,10 @@ userModel:UserModel={
 
   }
 
-async  Login(userModel:UserModel) 
+  Login(loginModel:LoginModel) :Observable<TokensModel>
   {
   
-    this._httpClient.post<TokensModel>(environment.identity.login,userModel).subscribe(response=>{
-
-
-      this.tokens.jwtToken=response.jwtToken;
-      this.tokens.refreshToken=response.jwtToken
-      localStorage.setItem('refreshToken',this.tokens.refreshToken)
-   localStorage.setItem('jwtToken',this.tokens.refreshToken);
-      this.userModel.email=userModel.email;
-      this.userModel.password=userModel.password;
-      this.userModel.username=userModel.username;
-
-    })
+ return    this._httpClient.post<TokensModel>(environment.identity.login,loginModel) 
   }
 
 

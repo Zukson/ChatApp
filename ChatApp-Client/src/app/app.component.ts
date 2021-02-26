@@ -10,15 +10,14 @@ export class AppComponent implements OnInit{
   constructor(private _identityService:IdentityService,private _router:Router){}
   ngOnInit(): void {
     console.log(this._identityService,'identity')
-    console.log(this._router,'router');
+    console.log(this._router,'router'); 
     if(this._identityService.isAuthorize)
     {
       this._router.navigate(['main']);
     }
-    else{
+   
       this._router.navigate(['login'])
-    }
-    this._router.navigate(['register']);
+    
   
   }
   title = 'ChatApp-Client';
