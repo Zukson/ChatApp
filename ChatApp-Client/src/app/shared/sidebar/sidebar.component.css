@@ -5,3 +5,26 @@
     
     border-right:solid 1px #111111;
 }
+
+#icon{
+    
+ width: 100%;
+ height: 50px;
+    margin-right: auto;
+   
+   
+}
+.mat-icon{
+    margin-left:40%;
+    margin-top: 10%;
+
+font-size: 40px;
+
+
+}
+ .matTooltip{
+    font-size: 40px !important;
+}
+.mat-icon:hover{
+cursor: pointer;
+}

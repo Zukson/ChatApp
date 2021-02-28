@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder,FormGroup,Validators } from '@angular/forms';
 import { MatStepper } from '@angular/material/stepper';
-import { UserModel } from '../models/user-model';
+import { RegisterModel } from '../models/register-model';
 import {UserService} from '../services/user/user.service';
 import{IdentityService} from '../services/identity/identity.service';
 import{TokensModel} from '../models/tokens-model';
@@ -18,7 +18,7 @@ export class RegisterComponent implements OnInit {
   firstFormGroup: FormGroup;
   secondFormGroup: FormGroup;
  isDisabled:boolean=true;
- userModel:UserModel;
+ registerModel:RegisterModel;
  avatar:HTMLImageElement;
  avatarUrl:string='assets/default.png';
 
@@ -36,7 +36,7 @@ export class RegisterComponent implements OnInit {
     this.secondFormGroup = this._formBuilder.group({
       secondCtrl: ['', Validators.required]
     });
-    this.userModel= <UserModel>{}  }
+    this.registerModel= <RegisterModel>{}  }
   ngOnInit(): void {
 
   }
@@ -84,11 +84,11 @@ else
 {
 
   console.log('spelnia warunki walidacji');
-  this.userModel.email=this.firstFormGroup.controls['email'].value;
-this.userModel.username=this.firstFormGroup.controls['username'].value;
-this.userModel.password=this.firstFormGroup.controls['password'].value;
+  this.registerModel.email=this.firstFormGroup.controls['email'].value;
+this.registerModel.username=this.firstFormGroup.controls['username'].value;
+this.registerModel.password=this.firstFormGroup.controls['password'].value;
 
- this._identityService.registerUser(this.userModel).subscribe(response=>{
+ this._identityService.registerUser(this.registerModel).subscribe(response=>{
    this.SuccesResponse(response);
   
   
@@ -123,6 +123,7 @@ SuccesResponse(response:TokensModel)
   console.log('sending avatar');
   this._userService.setUserAvatar(this.avatar);
   this._userService.avatarUrl=this.avatarUrl;
+  this._userService.isAvatarSet=true;
   
 }
 this._router.navigateByUrl('/main')

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {FormControl, Validators} from '@angular/forms';
 import {IdentityService} from '../services/identity/identity.service';
-
+import {Router} from '@angular/router';
 import {LoginModel} from '../models/login-model';
 @Component({
   selector: 'app-login',
@@ -13,7 +13,7 @@ export class LoginComponent implements OnInit {
   errorMessage:string=''
   loginModel:LoginModel;
 isDisabled:boolean=true;
-  constructor(private _identityService:IdentityService) {this.loginModel=<LoginModel>{} }
+  constructor(private _identityService:IdentityService,private _router:Router) {this.loginModel=<LoginModel>{} }
     
   emailFormControl = new FormControl('', [
     Validators.required,
@@ -52,7 +52,7 @@ isDisabled:boolean=true;
       localStorage.setItem('refreshToken',this._identityService.tokens.refreshToken)
       localStorage.setItem('jwtToken',this._identityService.tokens.jwtToken);
       
-
+      this._router.navigateByUrl('/main')
     },error=>{
       this.errorMessage= error.error.errors[0] as string;
     });

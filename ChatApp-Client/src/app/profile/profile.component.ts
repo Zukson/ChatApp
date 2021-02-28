@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 import {UserService} from '../services/user/user.service';
 @Component({
   selector: 'app-profile',
@@ -7,10 +8,14 @@ import {UserService} from '../services/user/user.service';
 })
 export class ProfileComponent implements OnInit {
 avatarUrl='';
-  constructor(private _userService:UserService) { }
+  constructor(public  _userService:UserService,private sanitizer: DomSanitizer) { }
   avatarClicked()
   {
     document.getElementById('myInput')?.click();
+    
+    
+    
+   
   }
   avatarChanged($event)
   {
@@ -27,7 +32,41 @@ reader.onload=(event)=>{
 }
   }
     ngOnInit(): void {
-     this.avatarUrl= this._userService.avatarUrl
+
+     this.setAvatar();
+     
   }
 
+  setAvatar()
+  {
+    console.log('setting')
+    console.log(this._userService.isAvatarSet);
+    if(this._userService.isAvatarSet)
+    {
+      this.avatarUrl=this._userService.getDefaultAvatar();
+    }
+
+    else{
+    
+      this._userService.getUserAvatar().subscribe(response=>
+        {
+          let reader = new FileReader();
+
+    reader.readAsDataURL(response);
+    
+    reader.onload=(event)=>{
+      console.log('laduje')
+      this.avatarUrl=event.target?.result as string 
+    
+    }},error=>{
+      console.log('error');
+      this.avatarUrl='assets/default.png'
+    }
+        )
+    }
+    console.log('ustawiam')
+    
+  }
 }
+
+

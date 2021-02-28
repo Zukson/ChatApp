@@ -1,46 +1,43 @@
 import { Injectable } from '@angular/core';
 import { from, Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
-import{UserModel} from '../../models/user-model'
+import { HttpClient, HttpHeaders, HttpResponse,HttpParams  } from '@angular/common/http';
+import {UserModel} from '../../models/user-model';
 import{IdentityService} from '../identity/identity.service';
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
 
-  constructor( private _httpClient:HttpClient,private _identityService:IdentityService) { }
-avatarUrl:string='assets/default.jpg';
+  userModel:UserModel;
+  constructor( private _httpClient:HttpClient,private _identityService:IdentityService) {this.userModel=<UserModel>{} ;this.isAvatarSet=false;}
+avatarUrl:string='assets/default.png';
 
-  getUserAvatar()
+isAvatarSet:boolean;
+getUserInfo(){
+  let headers = this._identityService.authorizeClient();
+ this._httpClient.get<UserModel>(environment.user.getInfo,{headers:headers}).subscribe(response=>
   {
-    if(this.avatarUrl=='assets/default.jpg')
-    {
+
+    this.userModel=response;
+  })
+}
+
+getDefaultAvatar()
+{
+  return this.avatarUrl;
+}
+  getUserAvatar() :Observable<Blob>
+  {
+    
       let headers = this._identityService.authorizeClient();
 
-      this._httpClient.get(environment.user.getAvatar,{headers:headers,responseType:'blob'}).subscribe(response=>
-        {
-         
-          
-      
-          
-          let reader = new FileReader();
-      
-            reader.readAsDataURL(response);
-            
-            reader.onload=(event)=>{
-           
-              this.avatarUrl=event.target.result as string ;
-        },error=>
-        {
-      console.log(error);
-        }});
-      
-        }
-      return this.avatarUrl
-    }
-    
 
+      return this._httpClient.get(environment.user.getAvatar,{headers:headers,responseType:'blob'  });
+       
+    
+    
+  }
   
   setUserAvatar(file)
   {

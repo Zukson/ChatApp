@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import{UserModel} from '../../models/user-model'
+import{RegisterModel} from '../../models/register-model'
 import { Observable } from 'rxjs/internal/Observable';
 import{TokensModel} from '../../models/tokens-model';
 import { stringify } from '@angular/compiler/src/util';
@@ -28,10 +28,10 @@ export class IdentityService {
 
     
   }
-    registerUser(userModel:UserModel) :Observable<TokensModel>
+    registerUser(registerModel:RegisterModel) :Observable<TokensModel>
   {
 
-   return  this._httpClient.post<TokensModel>(environment.identity.register,userModel);
+   return  this._httpClient.post<TokensModel>(environment.identity.register,registerModel);
 
   }
 

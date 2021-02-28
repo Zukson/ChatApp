@@ -16,6 +16,7 @@ import { MainComponent } from './main/main.component';
 import { IdentityService } from './services/identity/identity.service';
 
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -25,6 +26,8 @@ import { IdentityService } from './services/identity/identity.service';
     ProfileComponent,
   
     MainComponent,
+  
+  
     
    
   ],

@@ -13,8 +13,12 @@ import { SidebarComponent } from '../sidebar/sidebar.component';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {ScrollingModule} from '@angular/cdk/scrolling';
 import {MatCardModule} from '@angular/material/card';
+import {MatDialogModule} from '@angular/material/dialog'
+import { SearchUserComponent } from '../search-user/search-user.component';
+import { FormsModule } from '@angular/forms';
+import {MatTooltipModule} from '@angular/material/tooltip';
 @NgModule({
-  declarations: [ ToolbarComponent,MenulistComponent,SidebarComponent],
+  declarations: [ ToolbarComponent,MenulistComponent,SidebarComponent,SearchUserComponent],
   imports: [
     CommonModule,
     MatToolbarModule,
@@ -26,8 +30,11 @@ import {MatCardModule} from '@angular/material/card';
     MatStepperModule,
     MatSidenavModule,
     ScrollingModule,
-    MatCardModule
+    MatCardModule,
+    MatDialogModule,
+    FormsModule,
+    MatTooltipModule
   ],
-  exports:[SidebarComponent,ToolbarComponent,MenulistComponent,  MatButtonModule, MatInputModule,MatStepperModule,ScrollingModule,MatCardModule]
+  exports:[SidebarComponent,SearchUserComponent, MatDialogModule,ToolbarComponent,MenulistComponent,  MatButtonModule, MatInputModule,MatStepperModule,ScrollingModule,MatCardModule]
 })
 export class SharedModule { }
