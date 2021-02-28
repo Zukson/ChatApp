@@ -9,7 +9,7 @@ namespace ChatApp.Files
 {
   public  interface  IImageManager
     {
-        FileStream GetImage(string path);
+        byte[] GetImage(string path);
 
         Task SaveImageAsync(string temporaryPath,string path,int size);
        

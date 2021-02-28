@@ -33,6 +33,7 @@ namespace ChatApp.Contracts
             public const string PostUserAvatar = BaseUser + "postAvatar";
 
             public const string GetUserAvatar = BaseUser + "getAvatar";
+            public const string GetUserInfo = BaseUser + "getInfo";
 
 
 

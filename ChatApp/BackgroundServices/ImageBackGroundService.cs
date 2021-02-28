@@ -42,6 +42,7 @@ namespace ChatApp.BackgroundServices
                     string temporaryImagePath = _imageManager.GetAvatarPath(message.Filename, message.Username, ImageType.TemporaryAvatar);
                     string avatarPath = _imageManager.GetAvatarPath(message.Filename, message.Username, ImageType.Avatar);
                     string thumbnailPath = _imageManager.GetAvatarPath(message.Filename, message.Username, ImageType.Thumbnail);
+                    await _imageManager.SaveImageAsync(temporaryImagePath, avatarPath, ImageSizes.AvatarSize);
                     await _imageManager.SaveImageAsync(temporaryImagePath, thumbnailPath, ImageSizes.ThumbnailSize);
 
                  var user  = await db.ChatUsers.FindAsync(message.Username);

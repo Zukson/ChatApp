@@ -9,5 +9,7 @@ namespace ChatApp.Services
         Task<AuthenticationResult> RegisterAsync(string password, string username, string email);
         Task<AuthenticationResult> LoginAsync(  string email, string password);
         Task<AuthenticationResult> RefreshTokenAsync(string jwtToken,string refreshToken);
+       
+
     }
 }

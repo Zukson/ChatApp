@@ -46,13 +46,15 @@ namespace ChatApp.Files
             }
 
         }
-        public FileStream GetImage(string path)
+        public byte[] GetImage(string path)
         {
             if(ImageExists(path))
             {
-                using FileStream stream =  new FileStream(path,FileMode.Open,FileAccess.Read);
+                
+                    byte[] b = System.IO.File.ReadAllBytes(path);
 
-                return stream;
+                    return b;
+               
             }
 
             return null;
@@ -87,7 +89,7 @@ namespace ChatApp.Files
 
       public  string   GetAvatarPath(string fileName,string username,ImageType imageType)
         {
-            string fileType = fileName.Split('.')[1];
+            string fileType = fileName.Split('.').Last();
 
             var pathByType = imageType switch
             {

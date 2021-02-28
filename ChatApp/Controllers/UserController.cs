@@ -1,5 +1,6 @@
 ﻿using ChatApp.BackgroundServices;
 using ChatApp.Contracts;
+using ChatApp.Contracts.Responses;
 using ChatApp.Extensions;
 using ChatApp.Files;
 using ChatApp.Services;
@@ -17,15 +18,30 @@ namespace ChatApp.Controllers
 {
 
    
-   [Authorize]
+   [Authorize(AuthenticationSchemes =JwtBearerDefaults.AuthenticationScheme)]
     public class UserController : Controller
     {
         private readonly IImageManager _fileManager;
         private readonly Channel<ImageMessage> _channel;
-        public UserController(IImageManager fileManager,Channel<ImageMessage>channel)
+        private readonly IUserService _userService;
+        public UserController(IImageManager fileManager,Channel<ImageMessage>channel,IUserService userService)
         {
             _fileManager = fileManager;
             _channel = channel;
+            _userService = userService;
+
+        }
+
+        [HttpGet(ApiRoutes.User.GetUserInfo)]
+        public async Task<IActionResult> GetUserInfo ()
+        {
+            var username = ClaimsExtensions.GetClaimValue(this.HttpContext.User.Claims, "name");
+
+            var info = await _userService.GetUserInfoAsync(username);
+
+            UserInfoResponse infoResponse = new UserInfoResponse { Username = info.Username, Email = info.Email };
+
+            return Ok(infoResponse);
 
         }
         [HttpPost(ApiRoutes.User.PostUserAvatar)]
@@ -51,9 +67,10 @@ namespace ChatApp.Controllers
            
         }
 
+      
         [HttpGet(ApiRoutes.User.GetUserAvatar)]
 
-        public async Task<IActionResult>GetUserAvatar([FromQuery]string username,[FromServices]IUserService userService)
+        public async Task<IActionResult>GetUserAvatar([FromServices]IUserService userService)
         {
           string path =await  userService.GetImagePathAsync(ClaimsExtensions.GetClaimValue(HttpContext.User.Claims,"name"));
 
@@ -62,8 +79,9 @@ namespace ChatApp.Controllers
                 return BadRequest();
             }
 
-          var stream=   _fileManager.GetImage(path);
-            return new FileStreamResult(stream,"image/*");
-        }
+            var mime = path.Split('.').Last();
+          var output =   _fileManager.GetImage(path);
+            return new FileContentResult(_fileManager.GetImage(path),$"image/{mime}");
+                }
     }
 }
