@@ -81,6 +81,11 @@ namespace ChatApp.Controllers
 
             var mime = path.Split('.').Last();
           var output =   _fileManager.GetImage(path);
+
+            if(output is null)
+            {
+                return BadRequest();
+            
             return new FileContentResult(_fileManager.GetImage(path),$"image/{mime}");
                 }
     }

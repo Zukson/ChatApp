@@ -18,8 +18,9 @@ using System.Threading.Tasks;
 
 namespace ChatApp.Controllers
 {
-    
-    
+
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+
     public class ChatController : Controller
     {
         private readonly IChatService _chatService;
@@ -38,10 +39,10 @@ namespace ChatApp.Controllers
        
         public async Task<IActionResult> JoinChat([FromBody] JoinChatRequest joinRequest)
         {
-            var testuser = this.User.Claims.FirstOrDefault(x => x.Type == "name").Value;
+           
             string connectionId = joinRequest.ConnectionId;
-          string  userName= HttpContext.User.Identity.Name;
-         var userDto = await   _data.ChatUsers.FindAsync(userName);
+            var username = ClaimsExtensions.GetClaimValue(HttpContext.User.Claims,"name");
+         var userDto = await   _data.ChatUsers.FindAsync(username);
             var chatDto = await _data.ChatRooms.FindAsync(joinRequest.ChatId);
             var user = _mapper.Map<ChatUserDto, ChatUser>(userDto);
             var chat = _mapper.Map<ChatRoomDto, ChatRoom>(chatDto);
@@ -51,6 +52,8 @@ namespace ChatApp.Controllers
              
                 
         }
+
+        
         [HttpPost(ApiRoutes.Chat.SendMessage)]
         public async Task<IActionResult> SendMessage([FromBody]SendMessageRequest messageRequest)
         {

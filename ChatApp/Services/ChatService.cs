@@ -18,6 +18,8 @@ namespace ChatApp.Services
         private readonly IHubContext<ChatHub> _chathub;
         private readonly DataContext _data;
         private readonly IMapper _mapper;
+
+        
         public ChatService(IHubContext<ChatHub> chathub,DataContext data,IMapper mapper)
         {
             _chathub = chathub;
@@ -35,27 +37,29 @@ namespace ChatApp.Services
            await _data.SaveChangesAsync();
         }
 
-        public async Task<string>CreateChatAsync(List<string>connectionsId,List<ChatUser>users)
+        public async Task<string>CreateChatAsync(string  friendname,string username, string connectionId)
         {
 
-            var chat = new ChatRoom
+            ChatUserDto user = await _data.ChatUsers.FindAsync(username);
+
+            ChatUserDto friend = await _data.ChatUsers.FindAsync(friendname);
+
+            List<ChatUserDto> users = new List<ChatUserDto> { user, friend };
+            var chat = new ChatRoomDto
             {
                 Id = Guid.NewGuid().ToString(),
                 Users = users,
-                Messages = new List<Message>(),
+                Messages = new List<MessageDto>(),
                 LastActivityDate = DateTime.UtcNow
             };
-            foreach(var connectionId in connectionsId)
-            {
-              await   _chathub.Groups.AddToGroupAsync(connectionId, chat.Id);
-            }
+            
             AddChatToUsers(users, chat);
-           var chatDto = _mapper.Map<ChatRoom, ChatRoomDto>(chat);
-         await    _data.ChatRooms.AddAsync(chatDto);
+          
+         await    _data.ChatRooms.AddAsync(chat);
             await _data.SaveChangesAsync();
             return chat.Id;
         }
-        private void AddChatToUsers(List<ChatUser> users, ChatRoom Chat)
+        private void AddChatToUsers(List<ChatUserDto> users, ChatRoomDto Chat)
         {
             foreach (var user in users)
             {
