@@ -24,6 +24,7 @@ namespace ChatApp.Contracts
 
             public const string SendMessage = BaseChat +   "sendMessage";
             public const string JoinChat = BaseChat +  "joinChat";
+            public const string CreateChat = BaseChat + "createChat";
         }
 
         public static class User

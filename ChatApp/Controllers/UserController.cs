@@ -85,6 +85,7 @@ namespace ChatApp.Controllers
             if(output is null)
             {
                 return BadRequest();
+            }
             
             return new FileContentResult(_fileManager.GetImage(path),$"image/{mime}");
                 }

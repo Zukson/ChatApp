@@ -62,5 +62,21 @@ namespace ChatApp.Controllers
             await _chatService.SendMessageAsync(message, messageRequest.ChatId);
             return Ok();
         }
+
+        [HttpPost(ApiRoutes.Chat.CreateChat)]
+
+        public async Task<IActionResult>CreateChat([FromBody]CreateChatRequest createChatRequest)
+        {
+            //TODO check if user has had chatroom already with another user
+
+            var user = await _data.ChatUsers.FindAsync(createChatRequest.FriendName);
+                if(user==null)
+            {
+                BadRequest("User doesnt exist");
+            }
+
+            return Ok();
+        }
+        
     }
 }
