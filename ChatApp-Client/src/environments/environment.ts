@@ -16,6 +16,11 @@ export const environment = {
        login:'http://localhost:52304/api/v1/identity/login',
        refreshToken:'http://localhost:52304/api/v1/identity/refresh'
 
+  },
+
+  chat:
+  {
+    chathub:'http://localhost:52304/chathub',
   }
 };
 

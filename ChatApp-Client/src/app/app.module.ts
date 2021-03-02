@@ -14,6 +14,7 @@ import{UserService} from './services/user/user.service';
 import { ProfileComponent } from './profile/profile.component';
 import { MainComponent } from './main/main.component';
 import { IdentityService } from './services/identity/identity.service';
+import { ChatService } from './services/chat/chat.service';
 
 
 
@@ -43,7 +44,7 @@ import { IdentityService } from './services/identity/identity.service';
     HttpClientModule
 
   ],
-  providers: [ UserService,IdentityService],
+  providers: [ UserService,IdentityService,ChatService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
