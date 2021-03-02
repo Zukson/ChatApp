@@ -74,7 +74,7 @@ namespace ChatApp.Controllers
             {
                 BadRequest("User doesnt exist");
             }
-
+               
             return Ok();
         }
         

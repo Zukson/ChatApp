@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ChatApp.Folder
+namespace ChatApp.Chat
 {
     public class ChatDictionary
     {
@@ -28,7 +28,7 @@ namespace ChatApp.Folder
         }
 
 
-        public string  Get(string username)
+        public string  GetConnectionId(string username)
         {
              if(_cons.TryGetValue(username,out string connectionId))
             {

@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.SignalR;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.SignalR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ChatApp.Hubs
 {
-   
+    
     public class ChatHub : Hub
     {
         public override async  Task OnConnectedAsync()
@@ -16,7 +18,7 @@ namespace ChatApp.Hubs
            
            await Clients.Client(Context.ConnectionId).
                 SendAsync("receiveConnId", connId);
-            await Task.Delay(2000);
+            
             await TestMessage();
           
         }
