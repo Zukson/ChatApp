@@ -17,7 +17,7 @@ namespace ChatApp.Installers
 
                 x.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
                 {
-                    Title = "MyShop Api",
+                    Title = "ChatApp Api",
                     Version = "V1"
                 });
                 var security = new Dictionary<string, IEnumerable<string>>

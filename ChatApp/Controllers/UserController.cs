@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Threading.Channels;
 using System.Threading.Tasks;
@@ -35,9 +36,9 @@ namespace ChatApp.Controllers
         [HttpGet(ApiRoutes.User.GetUserInfo)]
         public async Task<IActionResult> GetUserInfo ()
         {
-            var username = ClaimsExtensions.GetClaimValue(this.HttpContext.User.Claims, "name");
+            var name = ClaimsExtensions.GetClaimValue(this.HttpContext.User.Claims, "name");
 
-            var info = await _userService.GetUserInfoAsync(username);
+            var info = await _userService.GetUserInfoAsync(name);
 
             UserInfoResponse infoResponse = new UserInfoResponse { Username = info.Username, Email = info.Email };
 

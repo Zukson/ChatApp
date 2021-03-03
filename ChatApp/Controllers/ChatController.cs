@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -72,10 +73,11 @@ namespace ChatApp.Controllers
             var user = await _data.ChatUsers.FindAsync(createChatRequest.FriendName);
                 if(user==null)
             {
-                BadRequest("User doesnt exist");
+                var response = new { error = "User doesnt exist" };
+              return   BadRequest(response);
             }
-               
-            return Ok();
+            string output= await _chatService.CreateChatAsync(createChatRequest.FriendName, HttpContext.User.Claims.GetClaimValue("name"), createChatRequest.ConnectionId);
+            return Ok(output);
         }
         
     }

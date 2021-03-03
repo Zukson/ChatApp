@@ -1,16 +1,20 @@
 
 <h1 mat-dialog-titlennn>Add User</h1>
-<p >error Mesage bla bla bla</p>
+<p  id="errorMessage" *ngIf="errorMessage">{{errorMessage}}</p>
 <div mat-dialog-content> <mat-form-field class="example-form-field" >
  
-    <input matInput type="text" [(ngModel)]="value">
-    <button mat-button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
+    <input matInput type="text" [(ngModel)]="friendName">
+    
+    <button mat-button *ngIf="friendName" matSuffix mat-icon-button aria-label="Clear" (click)="friendName=''">
       <mat-icon>close</mat-icon>
     </button>
   </mat-form-field>
   
   </div>
 <div mat-dialog-actions>
+  <button mat-button  (click)="create()" > Create</button>
+   
+ 
   <button mat-button mat-dialog-close>Close</button>
 </div>
 

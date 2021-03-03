@@ -8,6 +8,7 @@ import {UserService} from '../services/user/user.service';
 })
 export class ProfileComponent implements OnInit {
 avatarUrl='';
+login=''
   constructor(public  _userService:UserService,private sanitizer: DomSanitizer) { }
   avatarClicked()
   {
@@ -31,12 +32,33 @@ reader.onload=(event)=>{
   console.log(event);
 }
   }
+  ngOnChanges()
+  {
+   
+  }
     ngOnInit(): void {
-
+      if(!this._userService.userModel.UserName)
+      {
+        this._userService.getUserInfo().subscribe(response=>
+         {
+           this.login=response.UserName;
+           console.log('odpowiedz logowania',response);
+           let username = response.username
+           console.log(username);
+           this._userService.userModel.Email=response.email
+           this._userService.userModel.UserName=response.username
+           console.log("uzytkwownik po prawidlowylowym zalogowaniu ",this._userService.userModel)
+           this.login=this._userService.userModel.UserName;
+           console.log(this.login);
+         });;
+      }
      this.setAvatar();
      
+     
   }
-
+  ngAfterViewInit() {
+    document.getElementsByClassName('mat-card-header-text')[0].setAttribute('style', 'margin: auto');
+  }
   setAvatar()
   {
     console.log('setting')

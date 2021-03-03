@@ -14,14 +14,7 @@ export class UserService {
 avatarUrl:string='assets/default.png';
 
 isAvatarSet:boolean;
-getUserInfo(){
-  let headers = this._identityService.authorizeClient();
- this._httpClient.get<UserModel>(environment.user.getInfo,{headers:headers}).subscribe(response=>
-  {
 
-    this.userModel=response;
-  })
-}
 
 getDefaultAvatar()
 {
@@ -38,7 +31,12 @@ getDefaultAvatar()
     
     
   }
-  
+  getUserInfo()  :Observable<any>
+  {
+    let headers = this._identityService.authorizeClient();
+   return  this._httpClient.get(environment.user.getInfo,{headers:headers});
+
+  }
   setUserAvatar(file)
   {
     console.log('setuUserAvatar')

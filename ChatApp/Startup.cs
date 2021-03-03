@@ -68,8 +68,8 @@ namespace ChatApp
                 options.AddPolicy("CorsPolicy", builder => builder.WithOrigins("http://localhost:4200")
                     .AllowAnyHeader()
                     .AllowAnyMethod()
-                    .AllowCredentials()
-                    .SetIsOriginAllowed((host) => true));
+                    .AllowCredentials());
+                   // .SetIsOriginAllowed((host) => true));
             });
             services.AddSignalR();
           //  services.AddControllersWithViews();
@@ -110,11 +110,7 @@ namespace ChatApp
             app.UseAuthentication();
             app.UseAuthorization();
 
-            app.UseCors(builder => builder
-               .WithOrigins("http://localhost:4200")
-               .AllowAnyHeader()
-               .AllowAnyMethod()
-               .AllowCredentials());
+            app.UseCors("CorsPolicy");
 
       
           

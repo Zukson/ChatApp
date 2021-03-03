@@ -21,6 +21,7 @@ export const environment = {
   chat:
   {
     chathub:'http://localhost:52304/chathub',
+    createChat:'http://localhost:52304/api/v1/chat/createChat'
   }
 };
 

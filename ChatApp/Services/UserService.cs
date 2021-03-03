@@ -1,6 +1,7 @@
 ﻿using ChatApp.Data;
 using ChatApp.Domain;
 using ChatApp.Dto;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -12,14 +13,17 @@ namespace ChatApp.Services
     public class UserService : IUserService
     {
         private readonly DataContext _db;
-        public UserService(DataContext db)
+       private readonly UserManager<IdentityUser> _userManager;
+        public UserService(DataContext db, UserManager<IdentityUser> userManager)
         {
             _db = db;
+            _userManager = userManager;
         }
 
         public async Task CreateAsync(string username)
         {
             await _db.ChatUsers.AddAsync(new ChatUserDto { Name = username });
+            await _db.SaveChangesAsync();
         }
 
         
@@ -32,9 +36,9 @@ namespace ChatApp.Services
 
         }
 
-        public async Task<UserInfo> GetUserInfoAsync(string username)
+        public async Task<UserInfo> GetUserInfoAsync(string name)
         {
-            var user =await  _db.Users.FindAsync(username);
+            var user = await _userManager.FindByNameAsync(name);
 
             UserInfo userInfo = new UserInfo { Email = user.Email, Username = user.UserName };
 

@@ -25,7 +25,7 @@ namespace ChatApp.Installers
             configuration.Bind(nameof(ImageSettings), fileSettings);
             services.AddSingleton(fileSettings);
             services.AddSingleton(jwtSettings);
-            services.AddSingleton(provider =>
+            services.AddSingleton(_ =>
             {
                 return new ChatDictionary();
                

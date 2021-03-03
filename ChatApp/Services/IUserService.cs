@@ -15,6 +15,6 @@ namespace ChatApp.Services
         public Task SetImagePathAsync(string path, string username);
 
         public Task CreateAsync(string username);
-         public Task<UserInfo> GetUserInfoAsync(string username);
+         public Task<UserInfo> GetUserInfoAsync(string name);
     }
 }

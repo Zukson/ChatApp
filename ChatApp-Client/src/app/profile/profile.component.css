@@ -23,11 +23,18 @@
     margin-right: auto;
     text-align: center;
   }
+    .mat-card-header-text {
+    margin-left: auto;
+    margin-right: auto;
+}
 .cardHeader
 { 
-   width: 21%;
-    margin:  auto;
-} 
+    width: 100%;
+    margin: auto;
+    text-align: center;
+}
+   
+
 mat-button
 {
     margin-left: 50px;

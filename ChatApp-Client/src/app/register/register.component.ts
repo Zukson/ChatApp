@@ -125,7 +125,11 @@ SuccesResponse(response:TokensModel)
   this._userService.avatarUrl=this.avatarUrl;
   this._userService.isAvatarSet=true;
   
+
 }
+this._userService.userModel.UserName=this.registerModel.username=this.firstFormGroup.controls['username'].value;
+  this._userService.userModel.Email=
+  this.registerModel.email=this.firstFormGroup.controls['email'].value;
 this._router.navigateByUrl('/main')
 
 

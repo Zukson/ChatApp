@@ -14,10 +14,17 @@ namespace ChatApp.Installers
     {
         public void ConfigureServcies(IConfiguration configuration, IServiceCollection services)
         {
+            //services.AddDbContext<DataContext>(options =>
+            //     options.UseInMemoryDatabase(
+            //         configuration.GetConnectionString("DefaultConnection")));
+            //services.AddDatabaseDeveloperPageExceptionFilter();
+
             services.AddDbContext<DataContext>(options =>
-                 options.UseInMemoryDatabase(
-                     configuration.GetConnectionString("DefaultConnection")));
-            services.AddDatabaseDeveloperPageExceptionFilter();
+            {
+
+                options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
+                services.AddDatabaseDeveloperPageExceptionFilter();
+            });
 
             services.AddDefaultIdentity<IdentityUser>(options => {
                 options.Password.RequiredLength = 5;
