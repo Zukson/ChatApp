@@ -14,6 +14,7 @@ friendName:string="";
   ngOnInit(): void {
   }
 
+
   create()
   {
     this.errorMessage='';

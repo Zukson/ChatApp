@@ -3,7 +3,7 @@
 <p  id="errorMessage" *ngIf="errorMessage">{{errorMessage}}</p>
 <div mat-dialog-content> <mat-form-field class="example-form-field" >
  
-    <input matInput type="text" [(ngModel)]="friendName">
+    <input matInput type="text" [(ngModel)]="friendName"  >
     
     <button mat-button *ngIf="friendName" matSuffix mat-icon-button aria-label="Clear" (click)="friendName=''">
       <mat-icon>close</mat-icon>

@@ -26,6 +26,7 @@ namespace ChatApp
                 var identityService = scope.ServiceProvider.GetRequiredService<IIdentityService>();
 
                await  identityService.RegisterAsync("zukson", "zukson", "zukson@wp.pl");
+                await identityService.RegisterAsync("midnir", "midnir", "midnir@wp.pl");
 
                
             }

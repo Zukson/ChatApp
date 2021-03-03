@@ -15,6 +15,7 @@ import { ProfileComponent } from './profile/profile.component';
 import { MainComponent } from './main/main.component';
 import { IdentityService } from './services/identity/identity.service';
 import { ChatService } from './services/chat/chat.service';
+import { ChatRoomComponent } from './chat-room/chat-room.component';
 
 
 
@@ -27,6 +28,8 @@ import { ChatService } from './services/chat/chat.service';
     ProfileComponent,
   
     MainComponent,
+  
+    ChatRoomComponent,
   
   
     

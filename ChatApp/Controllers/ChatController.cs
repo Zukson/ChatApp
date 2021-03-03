@@ -70,12 +70,19 @@ namespace ChatApp.Controllers
         {
             //TODO check if user has had chatroom already with another user
 
+             if(HttpContext.User.Claims.GetClaimValue("name")==createChatRequest.FriendName)
+            {
+                var response = new { error = "You can not create chat with yourself" };
+                return BadRequest(response);
+            }
             var user = await _data.ChatUsers.FindAsync(createChatRequest.FriendName);
                 if(user==null)
             {
                 var response = new { error = "User doesnt exist" };
               return   BadRequest(response);
             }
+
+             
             string output= await _chatService.CreateChatAsync(createChatRequest.FriendName, HttpContext.User.Claims.GetClaimValue("name"), createChatRequest.ConnectionId);
             return Ok(output);
         }
