@@ -1,0 +1,32 @@
+.container
+{
+    width: 100%;
+}
+.messageHeader
+{
+    width: 97%;
+    display: flex;
+    flex-direction: row;
+    margin-left: 3%;
+    margin-top: 2%;
+  
+}
+
+.messageBody{
+    width: 97%;
+    margin-left: 3%;
+}
+.messageInput
+{
+    position: fixed;
+  bottom: 0;
+}
+h2 {
+    margin-left: 15px;
+    
+}
+.date{
+    color:gray;
+    margin-top:10px;
+    margin-left: 15px;
+}

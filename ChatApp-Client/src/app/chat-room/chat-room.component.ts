@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MessageModel } from '../models/message-model';
 
 @Component({
   selector: 'app-chat-room',
@@ -7,6 +8,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ChatRoomComponent implements OnInit {
 
+  messages:MessageModel[] = [];
+ chatroomId:string
   constructor() { }
 
   ngOnInit(): void {
