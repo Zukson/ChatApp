@@ -33,6 +33,23 @@ namespace ChatApp.Controllers
 
         }
 
+        [HttpGet(ApiRoutes.User.GetUserThumbnail)]
+        public async Task<IActionResult>GetUserThumbnail([FromQuery]string username, [FromServices] IUserService userService)
+        {
+            string path = await userService.GetImagePathAsync(username);
+
+            if (string.IsNullOrEmpty(path))
+            {
+                return BadRequest();
+            }
+
+            var mime = path.Split('.').Last();
+            var output = _fileManager.GetThumbnail(username, mime);
+
+            return new FileContentResult(output, $"image/{mime}");
+
+
+        }
         [HttpGet(ApiRoutes.User.GetUserInfo)]
         public async Task<IActionResult> GetUserInfo ()
         {

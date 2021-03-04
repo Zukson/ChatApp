@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using ChatApp.Chat;
+using ChatApp.Extensions;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 using System;
@@ -9,29 +11,41 @@ using System.Threading.Tasks;
 
 namespace ChatApp.Hubs
 {
-    
+   
     public class ChatHub : Hub
     {
+
+        private readonly ChatDictionary _chatDctionary;
+        public ChatHub(ChatDictionary chatDictionary)
+        {
+            _chatDctionary = chatDictionary;
+        }
         public override async  Task OnConnectedAsync()
         {
-            string connId = Context.ConnectionId;
+
+
+            var connectionId = Context.ConnectionId;
+          
+            await Clients.Client(connectionId).
+               SendAsync("receiveConnId", connectionId);
+
+
+
+          
            
-           await Clients.Client(Context.ConnectionId).
-                SendAsync("receiveConnId", connId);
-            
-            await TestMessage();
+
+           
           
         }
-     
-        public async Task TestMessage()
+        
+       
+      
+
+        public override Task OnDisconnectedAsync(Exception exception)
         {
-            await Clients.Client(Context.ConnectionId).SendAsync("receiveMessage", "siema");
-        }
-        public async Task SendMessage(string chatId,string senderName,string message)
-        {
-            var privateMessage = new PrivateMessage { MessageText = message, SenderName = senderName };
-            var serializedMessage = JsonSerializer.Serialize(privateMessage);
-            await Clients.Group(chatId).SendAsync("receiveMessage", serializedMessage);
+            string connectionId = Context.ConnectionId;
+            _chatDctionary.RemoveByConnectionId(connectionId);
+            return base.OnDisconnectedAsync(exception);
         }
     }
 

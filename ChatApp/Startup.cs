@@ -69,7 +69,7 @@ namespace ChatApp
                     .AllowAnyHeader()
                     .AllowAnyMethod()
                     .AllowCredentials());
-                   // .SetIsOriginAllowed((host) => true));
+                   //.SetIsOriginAllowed((host) => true));
             });
             services.AddSignalR();
           //  services.AddControllersWithViews();

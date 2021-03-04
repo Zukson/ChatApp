@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using ChatApp.Contracts;
 using ChatApp.Contracts.Requests.Chat;
+using ChatApp.Contracts.Responses.Chat;
 using ChatApp.Data;
 using ChatApp.Domain;
 using ChatApp.Dto;
@@ -36,6 +37,14 @@ namespace ChatApp.Controllers
             _mapper = mapper;
         }
 
+        [HttpGet(ApiRoutes.Chat.ConnectChats)]
+        public async Task<IActionResult>ConnectChat([FromQuery] string connectionId)
+        {
+            string username = HttpContext.User.Claims.GetClaimValue("name");
+          await  _chatService.JoinChatsAsync( username,connectionId);
+            return Ok();
+        }
+
  [HttpPost(ApiRoutes.Chat.JoinChat)]
        
         public async Task<IActionResult> JoinChat([FromBody] JoinChatRequest joinRequest)
@@ -52,6 +61,12 @@ namespace ChatApp.Controllers
 
              
                 
+        }
+
+
+        public async Task<IActionResult> GetChatRooms()
+        {
+            return Ok();
         }
 
         
@@ -72,19 +87,22 @@ namespace ChatApp.Controllers
 
              if(HttpContext.User.Claims.GetClaimValue("name")==createChatRequest.FriendName)
             {
-                var response = new { error = "You can not create chat with yourself" };
-                return BadRequest(response);
+                var badResponse = new { error = "You can not create chat with yourself" };
+                return BadRequest(badResponse);
             }
             var user = await _data.ChatUsers.FindAsync(createChatRequest.FriendName);
                 if(user==null)
             {
-                var response = new { error = "User doesnt exist" };
-              return   BadRequest(response);
+                var badResponse = new { error = "User doesnt exist" };
+              return   BadRequest(badResponse);
             }
 
              
-            string output= await _chatService.CreateChatAsync(createChatRequest.FriendName, HttpContext.User.Claims.GetClaimValue("name"), createChatRequest.ConnectionId);
-            return Ok(output);
+            string chatId= await _chatService.CreateChatAsync(createChatRequest.FriendName, HttpContext.User.Claims.GetClaimValue("name"), createChatRequest.ConnectionId);
+
+
+            CreateChatResponse response = new CreateChatResponse { FriendName = createChatRequest.FriendName, ChatRoomId = chatId,LastActivityDate=DateTime.UtcNow };
+            return Ok(response)      ;
         }
         
     }

@@ -46,6 +46,24 @@ namespace ChatApp.Files
             }
 
         }
+
+        public byte[]GetThumbnail(string username,string mime)
+        {
+            string path = Path.Combine(_thumbnailPath, $"{username}.{mime}");
+            if (ImageExists(path))
+            {
+
+                byte[] b = System.IO.File.ReadAllBytes(path);
+
+                return b;
+
+            }
+
+            return null;
+
+
+
+        }
         public byte[] GetImage(string path)
         {
             if(ImageExists(path))
@@ -59,6 +77,8 @@ namespace ChatApp.Files
 
             return null;
         }
+
+       
        
         public  async Task SaveImageAsync(string temporaryPath,string path,int size)
         {

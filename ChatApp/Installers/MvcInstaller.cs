@@ -53,6 +53,9 @@ namespace ChatApp.Installers
 
                 x.SaveToken = true;
                 x.TokenValidationParameters = tokenValidationParameters;
+                
+               
+
             }
               );
             services.AddScoped<IUserService, UserService>();

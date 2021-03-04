@@ -28,7 +28,7 @@ namespace ChatApp.Controllers
        public async Task<IActionResult> Register([FromBody]UserRegistrationRequest request)
         {
 
-           
+            
 
                 var result = await _identityService.RegisterAsync(request.Password, request.Username, request.Email);
                 if (!result.IsSuccess)

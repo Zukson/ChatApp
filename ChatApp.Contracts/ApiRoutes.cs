@@ -25,6 +25,7 @@ namespace ChatApp.Contracts
             public const string SendMessage = BaseChat +   "sendMessage";
             public const string JoinChat = BaseChat +  "joinChat";
             public const string CreateChat = BaseChat + "createChat";
+            public const string ConnectChats = BaseChat + "connectChats";
         }
 
         public static class User
@@ -35,6 +36,8 @@ namespace ChatApp.Contracts
 
             public const string GetUserAvatar = BaseUser + "getAvatar";
             public const string GetUserInfo = BaseUser + "getInfo";
+            public const string GetUserThumbnail = BaseUser + "getThumbnail";
+            
 
 
 

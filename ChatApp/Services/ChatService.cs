@@ -11,6 +11,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
+using ChatApp.Contracts.Responses.Chat;
+using Microsoft.EntityFrameworkCore;
 
 namespace ChatApp.Services
 {
@@ -39,14 +41,26 @@ namespace ChatApp.Services
            chatDto.Users.Add(userDto);
            await _data.SaveChangesAsync();
         }
+        public async Task JoinChatsAsync(string username,string connectionId)
+        {
+            var user = await _data.ChatUsers.Include(x => x.ChatRooms).FirstOrDefaultAsync(x => x.Name == username);
 
+                foreach(var chatRoom in user.ChatRooms)
+            {
+                await _chathub.Groups.AddToGroupAsync(connectionId, chatRoom.Id);
+            }
+
+            _chatDictionary.Add(username, connectionId);
+        }
         public async Task<string>CreateChatAsync(string  friendname,string username, string connectionId)
         {
 
-            ChatUserDto user = await _data.ChatUsers.FindAsync(username);
+            //ChatUserDto user = await _data.ChatUsers.FindAsync(username);
 
-            ChatUserDto friend = await _data.ChatUsers.FindAsync(friendname);
+           
 
+            ChatUserDto user = await _data.ChatUsers.Include(x => x.ChatRooms).FirstOrDefaultAsync(x=>x.Name==username);
+            ChatUserDto friend = await _data.ChatUsers.Include(x => x.ChatRooms).FirstOrDefaultAsync(x=>x.Name==friendname);
             List<ChatUserDto> users = new List<ChatUserDto> { user, friend };
             var chat = new ChatRoomDto
             {
@@ -69,11 +83,22 @@ namespace ChatApp.Services
 
             else
             {
+                try
+                {
+
                 AddUsersToGroup(new[] { connectionId }, chat.Id);
+                }
+                catch(Exception ex)
+                {
+                    var message = ex.ToString();
+                }
             }
            
             
             await _data.SaveChangesAsync();
+
+
+
             return chat.Id;
         }
         private void AddChatToUsers(List<ChatUserDto> users, ChatRoomDto Chat)
@@ -94,6 +119,18 @@ namespace ChatApp.Services
             foreach(string conId in connectionIds)
             {
                 _chathub.Groups.AddToGroupAsync(conId,chatroomId);
+            }
+        }
+
+
+        public async Task ConnectUser(string connectionId,string username)
+        {
+          var user = await   _data.ChatUsers.FindAsync(username);
+
+
+            foreach(var chatRoom in  user.ChatRooms)
+            {
+                await _chathub.Groups.AddToGroupAsync(connectionId, chatRoom.Id);
             }
         }
         public async Task SendMessageAsync(Message message,string chatId)

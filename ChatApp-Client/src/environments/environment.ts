@@ -8,7 +8,8 @@ export const environment = {
   user:{
     postAvatar:'http://localhost:52304/api/v1/user/postAvatar',
     getAvatar:'http://localhost:52304/api/v1/user/getAvatar',
-    getInfo:'http://localhost:52304/api/v1/user/getInfo'
+    getInfo:'http://localhost:52304/api/v1/user/getInfo',
+    getThumbnail:'http://localhost:52304/api/v1/user/getThumbnail'
   },
   
   identity:{
@@ -21,7 +22,8 @@ export const environment = {
   chat:
   {
     chathub:'http://localhost:52304/chathub',
-    createChat:'http://localhost:52304/api/v1/chat/createChat'
+    createChat:'http://localhost:52304/api/v1/chat/createChat',
+    connectChats:'http://localhost:52304/api/v1/chat/connectChats'
   }
 };
 

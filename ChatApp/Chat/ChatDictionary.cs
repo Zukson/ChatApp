@@ -27,7 +27,12 @@ namespace ChatApp.Chat
             _cons.Remove(username);
         }
 
+        public void RemoveByConnectionId(string connectionId)
+        {
+          var key = _cons.FirstOrDefault(x => x.Value == connectionId).Key;
 
+            _cons.Remove(key);
+        }
         public string  GetConnectionId(string username)
         {
              if(_cons.TryGetValue(username,out string connectionId))

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ChatRoomModel } from '../models/chat-room-model';
 import { ChatService } from '../services/chat/chat.service';
 
 @Component({
@@ -7,6 +8,7 @@ import { ChatService } from '../services/chat/chat.service';
   styleUrls: ['./main.component.css']
 })
 export class MainComponent implements OnInit {
+
 
   constructor(private _chatService:ChatService) { }
 

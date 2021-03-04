@@ -10,7 +10,7 @@ namespace ChatApp.Files
   public  interface  IImageManager
     {
         byte[] GetImage(string path);
-
+        byte[] GetThumbnail(string username, string mime);
         Task SaveImageAsync(string temporaryPath,string path,int size);
        
 

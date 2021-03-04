@@ -6,6 +6,17 @@ header{
     grid-area: header;
     margin:0px;
 }
+#header{
+    margin-left: 15px;
+    margin-top: 5px;
+   
+    
+}
+.chatThumbnail
+{
+    display: flex;
+    flex-direction: row;
+}
 aside{
     grid-area:sidebar;
     margin:0px;

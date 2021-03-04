@@ -13,7 +13,7 @@ namespace ChatApp.Services
         public Task<string> GetImagePathAsync(string username);
 
         public Task SetImagePathAsync(string path, string username);
-
+       
         public Task CreateAsync(string username);
          public Task<UserInfo> GetUserInfoAsync(string name);
     }

@@ -4,6 +4,7 @@ import {ChatUserModel} from "./chat-user-model"
        
    ChatUser :ChatUserModel
     ChatId:string
+    LastActivityDate:number ;
   
 
 }

@@ -31,6 +31,13 @@ getDefaultAvatar()
     
     
   }
+
+  getUserThumbnail(name) : Observable<Blob>
+  {
+    let params = new HttpParams().set('username', name);
+    let headers=this._identityService.authorizeClient();
+    return this._httpClient.get(environment.user.getThumbnail,{headers:headers,responseType:'blob',params:params  })
+  }
   getUserInfo()  :Observable<any>
   {
     let headers = this._identityService.authorizeClient();
