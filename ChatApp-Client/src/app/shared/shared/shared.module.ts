@@ -35,6 +35,6 @@ import {MatTooltipModule} from '@angular/material/tooltip';
     FormsModule,
     MatTooltipModule
   ],
-  exports:[SidebarComponent,SearchUserComponent, MatDialogModule,ToolbarComponent,MenulistComponent,  MatButtonModule, MatInputModule,MatStepperModule,ScrollingModule,MatCardModule]
+  exports:[SidebarComponent,SearchUserComponent, MatDialogModule,ToolbarComponent,MenulistComponent,  MatButtonModule, MatInputModule,MatStepperModule,ScrollingModule,MatCardModule,MatIconModule]
 })
 export class SharedModule { }

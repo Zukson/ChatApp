@@ -12,14 +12,43 @@
   
 }
 
+
 .messageBody{
     width: 97%;
     margin-left: 3%;
 }
+
+.mat-form-field
+{
+    width:78%;
+   
+    
+  
+}
+
 .messageInput
 {
+    display: flex;
+    flex-direction: row;
     position: fixed;
   bottom: 0;
+  margin-bottom: 1%;
+  width: 100%;
+ margin-left: 1%;
+ margin-right: 3%;
+ 
+}
+.mat-mini-fab
+{
+    margin-top: 18px;
+   margin-left: 10px;
+}
+
+.sendIcon
+{
+    width: 70px;
+    margin-right: 20px;
+   
 }
 h2 {
     margin-left: 15px;
