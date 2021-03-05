@@ -32,12 +32,37 @@ export class ChatService {
        this.connection.start().then(()=>console.log('Nawiazuje polaczenie')).catch(err=>{console.log(err)});
     
        this.connection.on('receiveConnId',(conId)=>{this.receiveConId(conId)});
-       this.connection.on('message')
+       this.connection.on('chatCreated',(data)=>this.chatCreated(data));
     
    
 
   }
 
+  chatCreated(data)
+  {
+    console.log('chatCreated',data);
+
+    this._userService.getUserThumbnail(data.userName).subscribe((blob)=>
+    {
+      let reader = new FileReader();
+
+      reader.readAsDataURL(blob)
+
+      reader.onload=(event)=>{
+        let chatUser= <ChatUserModel>{Username:data.userName,UserThumbnail:event.target.result as string}
+
+        let chatRoom = <ChatRoomModel>{ChatId:data.chatRoomId,ChatUser:chatUser}
+        this.chatRooms.push(chatRoom);
+      }
+    },error=>
+    {
+      let chatUser= <ChatUserModel>{Username:data.userName,UserThumbnail:'assets/default.png'};
+
+        let chatRoom = <ChatRoomModel>{ChatId:data.chatRoomId,ChatUser:chatUser}
+        this.chatRooms.push(chatRoom);
+    });
+   
+  }
   createChatRoom( friendName:string) :Observable<CreateChatResponse>
   {
     console.log('create chatrrom request')
@@ -49,7 +74,7 @@ export class ChatService {
        };
      let headers = this._identityService.authorizeClient();
          
-     console.log(request);
+     console.log('cretechatrequest',request);
    return  this._httpClient.post<CreateChatResponse>(environment.chat.createChat,request,{headers:headers})
   }
 

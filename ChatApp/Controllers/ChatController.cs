@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using ChatApp.Chat;
 using ChatApp.Contracts;
 using ChatApp.Contracts.Requests.Chat;
 using ChatApp.Contracts.Responses.Chat;
@@ -81,24 +82,22 @@ namespace ChatApp.Controllers
 
         [HttpPost(ApiRoutes.Chat.CreateChat)]
 
-        public async Task<IActionResult>CreateChat([FromBody]CreateChatRequest createChatRequest)
+        public async Task<IActionResult>CreateChat([FromServices]ICreateChatValidator validator,[FromBody]CreateChatRequest createChatRequest)
         {
             //TODO check if user has had chatroom already with another user
 
-             if(HttpContext.User.Claims.GetClaimValue("name")==createChatRequest.FriendName)
-            {
-                var badResponse = new { error = "You can not create chat with yourself" };
-                return BadRequest(badResponse);
-            }
-            var user = await _data.ChatUsers.FindAsync(createChatRequest.FriendName);
-                if(user==null)
-            {
-                var badResponse = new { error = "User doesnt exist" };
-              return   BadRequest(badResponse);
-            }
+            var username = HttpContext.User.Claims.GetClaimValue("name");
 
+        var result  = await validator.ValidateRequest(username, createChatRequest.FriendName);
+
+            if(result.IsValid == false)
+            {
+                var failedResponse = new FailedCreateChatResponse { Error = result.Error };
+                return BadRequest(failedResponse);
+
+            }
              
-            string chatId= await _chatService.CreateChatAsync(createChatRequest.FriendName, HttpContext.User.Claims.GetClaimValue("name"), createChatRequest.ConnectionId);
+            string chatId= await _chatService.CreateChatAsync(createChatRequest.FriendName, username, createChatRequest.ConnectionId);
 
 
             CreateChatResponse response = new CreateChatResponse { FriendName = createChatRequest.FriendName, ChatRoomId = chatId,LastActivityDate=DateTime.UtcNow };

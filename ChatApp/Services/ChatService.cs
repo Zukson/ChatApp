@@ -79,6 +79,9 @@ namespace ChatApp.Services
             {
                 CreatedChat(friendConId, chat.Id, username);
                 AddUsersToGroup(new[] { connectionId,friendConId},chat.Id);
+
+                var chatCreatedMessage = new { chatRoomId = chat.Id, userName = user.Name };
+               await  _chathub.Clients.Client(friendConId).SendAsync("chatCreated",chatCreatedMessage);
             }
 
             else
@@ -96,6 +99,8 @@ namespace ChatApp.Services
            
             
             await _data.SaveChangesAsync();
+
+            
 
 
 

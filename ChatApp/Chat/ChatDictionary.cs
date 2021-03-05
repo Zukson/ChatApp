@@ -35,7 +35,7 @@ namespace ChatApp.Chat
         }
         public string  GetConnectionId(string username)
         {
-             if(_cons.TryGetValue(username,out string connectionId))
+             if(_cons.TryGetValue(username,out string connectionId) is false)
             {
                 return null;
             }

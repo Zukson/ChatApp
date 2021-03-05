@@ -13,6 +13,7 @@ text:string="";
   constructor() { }
 
   ngOnInit(): void {
+    
   }
 
 }

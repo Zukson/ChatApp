@@ -1,6 +1,6 @@
 export interface CreateChatResponse {
 
-    ChatRoomId :string,
-    FriendName :string,
-    LastActivityDate :number
+    chatRoomId :string,
+    friendName :string,
+    lastActivityDate :number
 }
