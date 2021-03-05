@@ -100,7 +100,7 @@ namespace ChatApp.Services
             
             await _data.SaveChangesAsync();
 
-            
+            var usedasdasdr = await _data.ChatUsers.Include(x => x.ChatRooms).FirstOrDefaultAsync(x => x.Name == username);
 
 
 

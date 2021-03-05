@@ -18,6 +18,11 @@ namespace ChatApp.Chat
         public async  Task<CreateChatValidationResult> ValidateRequest(string username,string friendName)
         {
             
+            if(CreateChatWithSelf(username,friendName))
+            {
+                var result = new CreateChatValidationResult { Error = "You can not create chat with your self", IsValid = false };
+                return result;
+            }
             if(!await UserExists(friendName))
                 {
                 var result = new CreateChatValidationResult { Error = "User doesnt exist" ,IsValid=false};
@@ -35,11 +40,18 @@ namespace ChatApp.Chat
             return successResult; 
         }
 
+        private bool CreateChatWithSelf(string username,string friendName)
+        {
+            bool output = username == friendName ? true : false;
+
+            return output;
+        }
         private async Task<bool> HasAlreadyChatWithUser(string username,string friendName)
         {
-            var user = await _data.ChatUsers.Include(x => x.ChatRooms).FirstOrDefaultAsync(x => x.Name == username);
+
+            var chatRooms =await _data.ChatRooms.Include(x => x.Users).Where(x => x.Users.Any(x => x.Name == username)).ToListAsync();
             bool hasChat = false;
-            var chatRooms = user.ChatRooms.ToList();
+          
             int i = 0;
             while(i<chatRooms.Count()&&hasChat==false)
             {
