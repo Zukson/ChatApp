@@ -9,6 +9,7 @@ namespace ChatApp.Services
 {
    public interface IChatService
     {
+        Task<GetChatRoomsResponse> GetChatsAsync(string username);
         Task JoinChatAsync(string connectionId, ChatUser user, ChatRoom chat);
         Task JoinChatsAsync(string username, string connectionId);
         Task<string> CreateChatAsync(string friendname,string username,string connectionId);

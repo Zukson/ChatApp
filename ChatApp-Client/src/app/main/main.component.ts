@@ -9,10 +9,22 @@ import { ChatService } from '../services/chat/chat.service';
 })
 export class MainComponent implements OnInit {
 
+  chatRooms:ChatRoomModel[]=[];
+
 
   constructor(public _chatService:ChatService) { }
 
   ngOnInit(): void {
+    this._chatService.chatRooms.subscribe((chatRoom)=>{
+      console.log('dostaje chatroom',chatRoom)
+      this.chatRooms.push(chatRoom);
+      
+    }
+    
+    
+    )
+  
+ this.chatRooms= this._chatService.getChatRooms();
   }
 
 }

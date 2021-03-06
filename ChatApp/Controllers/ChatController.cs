@@ -64,13 +64,17 @@ namespace ChatApp.Controllers
                 
         }
 
-
+        [HttpGet(ApiRoutes.Chat.GetChats)]
+       
         public async Task<IActionResult> GetChatRooms()
         {
-            return Ok();
+            string username = HttpContext.User.Claims.GetClaimValue("name");
+
+            var response = await _chatService.GetChatsAsync(username);
+            return Ok(response);
         }
 
-        
+
         [HttpPost(ApiRoutes.Chat.SendMessage)]
         public async Task<IActionResult> SendMessage([FromBody]SendMessageRequest messageRequest)
         {

@@ -38,7 +38,7 @@ friendName:string="";
 
               console.log(event);
               console.log('chatRoom',chatRoom);
-              this._chatService.chatRooms.push(chatRoom);
+              this._chatService.chatRooms.next(chatRoom);
               
             this._router.navigate(['/main/chatRoom',response.chatRoomId]);
             }
@@ -47,7 +47,7 @@ friendName:string="";
           console.log('user has not thumbnail');
           let user = <ChatUserModel>{Username:response.friendName,UserThumbnail:'assets/default.png'}
           let chatRoom = <ChatRoomModel>{ChatId:response.chatRoomId,ChatUser:user,LastActivityDate:response.lastActivityDate}
-          this._chatService.chatRooms.push(chatRoom);
+          this._chatService.chatRooms.next(chatRoom); 
           this._router.navigate(['/main/chatRoom',response.chatRoomId]);
         })
       let chatRoom = <ChatRoomModel>{}         

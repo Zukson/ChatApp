@@ -41,6 +41,23 @@ namespace ChatApp.Services
            chatDto.Users.Add(userDto);
            await _data.SaveChangesAsync();
         }
+
+        public async Task<GetChatRoomsResponse> GetChatsAsync(string username)
+        {
+            List<ChatRoomDto> chatRoomDtos = await _data.ChatRooms.Include(x => x.Users).Where(x => x.Users.Any(x => x.Name == username)).ToListAsync();
+
+
+            var chatRoomsRepsonse = chatRoomDtos.Select(x => new SingleChatRoom
+            {
+                ChatRoomId = x.Id,
+                FriendName = x.Users.FirstOrDefault(x => x.Name != username).Name
+                ,
+                LastActivityDate = x.LastActivityDate
+            });
+
+            GetChatRoomsResponse GetChatRoomsResponse = new GetChatRoomsResponse { Chats = chatRoomsRepsonse.ToList() };
+            return GetChatRoomsResponse;
+        }
         public async Task JoinChatsAsync(string username,string connectionId)
         {
             var user = await _data.ChatUsers.Include(x => x.ChatRooms).FirstOrDefaultAsync(x => x.Name == username);

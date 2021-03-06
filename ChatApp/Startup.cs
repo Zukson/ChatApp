@@ -78,7 +78,7 @@ namespace ChatApp
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            CleanImages();
+           // CleanImages();
             var swaggerSettings = new SwaggerSettings();
             Configuration.GetSection(nameof(SwaggerSettings))
                 .Bind(swaggerSettings);

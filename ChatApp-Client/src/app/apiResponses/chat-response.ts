@@ -1,4 +1,4 @@
-export interface CreateChatResponse {
+export interface ChatResponse {
 
     chatRoomId :string,
     friendName :string,

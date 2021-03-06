@@ -2,19 +2,20 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import * as SignalR from "@aspnet/signalr";
 import { Observable, Subject } from 'rxjs';
-import { CreateChatResponse } from 'src/app/apiResponses/create-chat-response';
+
 import { ChatRoomModel } from 'src/app/models/chat-room-model';
 import { environment } from 'src/environments/environment';
 import { IdentityService } from '../identity/identity.service';
 import {ChatUserModel} from '../../models/chat-user-model';
 import { UserService } from '../user/user.service';
+import { ChatResponse } from 'src/app/apiResponses/chat-response';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ChatService {
 
-  chatRooms:ChatRoomModel[]=[];
+  chatRooms:Subject<ChatRoomModel>
   connectionId:string;
   
   message:Subject<string>
@@ -23,6 +24,7 @@ export class ChatService {
   connection
   constructor(private _identityService:IdentityService,public _userService:UserService,private _httpClient:HttpClient) { 
 
+    this.chatRooms= new Subject<ChatRoomModel>();
     this.message=new Subject<string>();
    
       this.connection= new
@@ -35,7 +37,7 @@ export class ChatService {
        this.connection.on('chatCreated',(data)=>this.chatCreated(data));
     
    
-
+ console.log('connection',this.connection)
   }
 
   chatCreated(data)
@@ -52,18 +54,60 @@ export class ChatService {
         let chatUser= <ChatUserModel>{Username:data.userName,UserThumbnail:event.target.result as string}
 
         let chatRoom = <ChatRoomModel>{ChatId:data.chatRoomId,ChatUser:chatUser}
-        this.chatRooms.push(chatRoom);
+        this.chatRooms.next(chatRoom);
       }
     },error=>
     {
       let chatUser= <ChatUserModel>{Username:data.userName,UserThumbnail:'assets/default.png'};
 
         let chatRoom = <ChatRoomModel>{ChatId:data.chatRoomId,ChatUser:chatUser}
-        this.chatRooms.push(chatRoom);
+        this.chatRooms.next(chatRoom);
     });
    
+  } 
+
+  
+  getChatRooms() 
+  {
+let headers = this._identityService.authorizeClient();
+
+let chatRooms = <ChatRoomModel[]>[];
+this._httpClient.get<any>(environment.chat.getChatRooms,{headers:headers}).subscribe(response=>
+  {
+      console.log('get chats response',response.chats[0])
+
+     
+      response.chats.forEach(chatRoom => {
+        this._userService.getUserThumbnail(chatRoom.friendName).subscribe((blob)=>{
+
+          let reader = new FileReader();
+
+          reader.readAsDataURL(blob)
+    
+          reader.onload=(event)=>{
+           
+           let chatUser = <ChatUserModel>{Username:chatRoom.friendName,UserThumbnail:event.target.result as string}
+
+           let chat=  <ChatRoomModel>{ChatUser:chatUser,ChatId:chatRoom.chatId,LastActivityDate:chatRoom.lastActivityDate}
+           chatRooms.push(chat);
+          }
+        },error=>{
+          let chatUser = <ChatUserModel>{Username:chatRoom.friendName,UserThumbnail:'assets/default.png'}
+
+          let chat=  <ChatRoomModel>{ChatUser:chatUser,ChatId:chatRoom.chatId,LastActivityDate:chatRoom.lastActivityDate}
+          chatRooms.push(chat);
+        })
+      
+      });
+
+
+  },error=>{
+    console.log('Get chatrooms err',error)
+  })
+return chatRooms;
   }
-  createChatRoom( friendName:string) :Observable<CreateChatResponse>
+ 
+  createChatRoom( friendName:string) :Observable<ChatResponse>
   {
     console.log('create chatrrom request')
     let request :any= 
@@ -75,7 +119,7 @@ export class ChatService {
      let headers = this._identityService.authorizeClient();
          
      console.log('cretechatrequest',request);
-   return  this._httpClient.post<CreateChatResponse>(environment.chat.createChat,request,{headers:headers})
+   return  this._httpClient.post<ChatResponse>(environment.chat.createChat,request,{headers:headers})
   }
 
   receiveConId(conId)
