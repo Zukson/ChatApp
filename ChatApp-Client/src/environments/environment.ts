@@ -26,6 +26,7 @@ export const environment = {
     createChat:'http://localhost:52304/api/v1/chat/createChat',
     connectChats:'http://localhost:52304/api/v1/chat/connectChats',
     getChatRooms:'http://localhost:52304/api/v1/chat/getChats',
+    getChatUsers:'http://localhost:52304/api/v1/chat/getChatUsers'
   }
 };
 

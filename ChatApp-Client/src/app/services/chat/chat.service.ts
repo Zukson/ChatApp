@@ -9,6 +9,7 @@ import { IdentityService } from '../identity/identity.service';
 import {ChatUserModel} from '../../models/chat-user-model';
 import { UserService } from '../user/user.service';
 import { ChatResponse } from 'src/app/apiResponses/chat-response';
+import { request } from 'http';
 
 @Injectable({
   providedIn: 'root'
@@ -31,7 +32,7 @@ export class ChatService {
       
        SignalR.HubConnectionBuilder().withUrl(environment.chat.chathub).build();
      
-       this.connection.start().then(()=>console.log('Nawiazuje polaczenie')).catch(err=>{console.log(err)});
+      // this.connection.start().then(()=>console.log('Nawiazuje polaczenie')).catch(err=>{console.log(err)});
     
        this.connection.on('receiveConnId',(conId)=>{this.receiveConId(conId)});
        this.connection.on('chatCreated',(data)=>this.chatCreated(data));
@@ -88,13 +89,13 @@ this._httpClient.get<any>(environment.chat.getChatRooms,{headers:headers}).subsc
            
            let chatUser = <ChatUserModel>{Username:chatRoom.friendName,UserThumbnail:event.target.result as string}
 
-           let chat=  <ChatRoomModel>{ChatUser:chatUser,ChatId:chatRoom.chatId,LastActivityDate:chatRoom.lastActivityDate}
+           let chat=  <ChatRoomModel>{ChatUser:chatUser,ChatId:chatRoom.chatRoomId,LastActivityDate:chatRoom.lastActivityDate}
            chatRooms.push(chat);
           }
         },error=>{
           let chatUser = <ChatUserModel>{Username:chatRoom.friendName,UserThumbnail:'assets/default.png'}
 
-          let chat=  <ChatRoomModel>{ChatUser:chatUser,ChatId:chatRoom.chatId,LastActivityDate:chatRoom.lastActivityDate}
+          let chat=  <ChatRoomModel>{ChatUser:chatUser,ChatId:chatRoom.chatRoomId,LastActivityDate:chatRoom.lastActivityDate}
           chatRooms.push(chat);
         })
       
@@ -122,6 +123,19 @@ return chatRooms;
    return  this._httpClient.post<ChatResponse>(environment.chat.createChat,request,{headers:headers})
   }
 
+  getChatUsers(chatRoomId)
+
+  {
+    let params = new HttpParams().set('chatRoomId', chatRoomId);
+    let headers= this._identityService.authorizeClient();
+
+     this._httpClient.get(environment.chat.getChatUsers,{headers:headers,params:params}).subscribe(response=>
+      {
+        console.log(response);
+      })
+
+    
+  }
   receiveConId(conId)
   {
     console.log('received conId',conId);
@@ -133,5 +147,17 @@ return chatRooms;
   receiveMessage(msg)
   {
     this.message.next(msg);
+  }
+
+  logout()
+  {
+    this.connection.stop();
+    console.log(this.connection,'to polaczenie')
+  }
+
+  login()
+  {
+    this.connection.start();
+    console.log('startuje ponownie ' ,this.connection)
   }
 }

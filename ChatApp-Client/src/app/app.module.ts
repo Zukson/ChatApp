@@ -16,6 +16,7 @@ import { MainComponent } from './main/main.component';
 import { IdentityService } from './services/identity/identity.service';
 import { ChatService } from './services/chat/chat.service';
 import { ChatRoomComponent } from './chat-room/chat-room.component';
+import { RouterModule } from '@angular/router';
 
 
 
@@ -40,7 +41,7 @@ import { ChatRoomComponent } from './chat-room/chat-room.component';
     AppRoutingModule,
     BrowserAnimationsModule,
     SharedModule,
-  
+    RouterModule,
     FormsModule,
     ReactiveFormsModule,
     AvatarModule,

@@ -59,6 +59,10 @@ getDefaultAvatar()
     });
   }
 
+  logout()
+  {
+    this.userModel=<UserModel>{};
+  }
 
 
  

@@ -9,7 +9,13 @@
             
       
            
-      <button mat-button  *ngFor="let chatroom of chatRooms" style="width:100%;  ;" ><div class="chatThumbnail"><ngx-avatar [src]="chatroom.ChatUser.UserThumbnail" [size]="40"></ngx-avatar><p class="header">{{chatroom.ChatUser.Username}}</p></div></button>
+    <button mat-button   *ngFor="let chatroom of chatRooms" (click)="navigate(chatroom)"  style="width:100%;  ;" >
+        
+        <div class="chatThumbnail">
+            <ngx-avatar [src]="chatroom.ChatUser.UserThumbnail" [size]="40">
+
+            </ngx-avatar
+            ><p class="header">{{chatroom.ChatUser.Username}}</p></div></button>
         </app-sidebar>
     </aside>
 

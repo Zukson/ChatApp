@@ -96,4 +96,9 @@ export class IdentityService {
        
       return headers;
     }
+    logout()
+    {
+      localStorage.removeItem('jwtToken');
+      localStorage.removeItem('refreshToken');
+    }
 }
