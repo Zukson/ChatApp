@@ -7,7 +7,7 @@
     <aside >
         <app-sidebar>
             
-      <button mat-button style="width: 100%;">    <div class="chatThumbnail"> <ngx-avatar src="assets/default.png" style="margin-top: 5px;" [size]="40"></ngx-avatar><p class="header" > Nick  </p></div></button> 
+      
            
       <button mat-button  *ngFor="let chatroom of chatRooms" style="width:100%;  ;" ><div class="chatThumbnail"><ngx-avatar [src]="chatroom.ChatUser.UserThumbnail" [size]="40"></ngx-avatar><p class="header">{{chatroom.ChatUser.Username}}</p></div></button>
         </app-sidebar>

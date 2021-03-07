@@ -74,6 +74,25 @@ namespace ChatApp.Controllers
             return Ok(response);
         }
 
+        public async Task<IActionResult > GetMessagesForChatRoom(string chatRoomId)
+        {
+            var messages =await  _chatService.GetMessagesAsync(chatRoomId);
+
+            if(messages is null)
+            {
+                return BadRequest();
+            }
+            
+            var messagesResponse = messages.Select(x => new MessageReponse
+           { 
+                SenderName = x.SenderName,
+                SendDate = x.SendDate, 
+                Text = x.Text 
+           });
+
+            return Ok(messagesResponse);
+        }
+
 
         [HttpPost(ApiRoutes.Chat.SendMessage)]
         public async Task<IActionResult> SendMessage([FromBody]SendMessageRequest messageRequest)
@@ -81,14 +100,16 @@ namespace ChatApp.Controllers
             var name = ClaimsExtensions.GetClaimValue(HttpContext.User.Claims, "name");
             var message = new Message { MessageId = Guid.NewGuid().ToString(), SenderName = name, SendDate = DateTime.UtcNow, Text = messageRequest.Message };
             await _chatService.SendMessageAsync(message, messageRequest.ChatId);
-            return Ok();
+
+            var response = new SendMessageResponse { SenderName = message.SenderName, SendDate = message.SendDate, Text = message.Text };
+            return Ok(response);
         }
 
         [HttpPost(ApiRoutes.Chat.CreateChat)]
 
         public async Task<IActionResult>CreateChat([FromServices]ICreateChatValidator validator,[FromBody]CreateChatRequest createChatRequest)
         {
-            //TODO check if user has had chatroom already with another user
+            
 
             var username = HttpContext.User.Claims.GetClaimValue("name");
 

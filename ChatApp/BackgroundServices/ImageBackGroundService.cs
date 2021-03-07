@@ -54,7 +54,7 @@ namespace ChatApp.BackgroundServices
 
                 catch
                 {
-
+                    //TODO add error handlign
 
                 }
                 

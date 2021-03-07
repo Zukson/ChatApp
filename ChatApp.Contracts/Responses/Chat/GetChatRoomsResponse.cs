@@ -9,16 +9,10 @@ namespace ChatApp.Contracts.Responses.Chat
 {
    public    class GetChatRoomsResponse
     {
-        public List<SingleChatRoom> Chats { get; set; }
+        public List<ChatRoomResponse> Chats { get; set; }
 
     }
 
-  public class SingleChatRoom
-    {
-        public string ChatRoomId { get; set; }
-
-        public string FriendName { get; set; }
-        public DateTime LastActivityDate { get; set; }
-    }
+  
 
 }

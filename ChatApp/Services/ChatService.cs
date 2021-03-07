@@ -47,7 +47,7 @@ namespace ChatApp.Services
             List<ChatRoomDto> chatRoomDtos = await _data.ChatRooms.Include(x => x.Users).Where(x => x.Users.Any(x => x.Name == username)).ToListAsync();
 
 
-            var chatRoomsRepsonse = chatRoomDtos.Select(x => new SingleChatRoom
+            var chatRoomsRepsonse = chatRoomDtos.Select(x => new ChatRoomResponse
             {
                 ChatRoomId = x.Id,
                 FriendName = x.Users.FirstOrDefault(x => x.Name != username).Name
@@ -158,6 +158,12 @@ namespace ChatApp.Services
         public async Task SendMessageAsync(Message message,string chatId)
         {
 
+          var chatRoom = await   _data.ChatRooms.FindAsync(chatId);
+
+            var messageDto = _mapper.Map<MessageDto>(message);
+            chatRoom.Messages.Add(messageDto);
+            chatRoom.LastActivityDate = messageDto.SendDate;
+            await _data.SaveChangesAsync();
             var serializedMessage = JsonSerializer.Serialize(message);
             await _chathub.Clients.Group(chatId).SendAsync("receiveMessage", message);
 
@@ -169,6 +175,17 @@ namespace ChatApp.Services
             var serializedMessage = JsonSerializer.Serialize(message);
 
             _chathub.Clients.Client(connectionId).SendAsync("createdChat", serializedMessage);
+        }
+
+        public  async Task<List<Message>> GetMessagesAsync(string chatRoomId)
+        {
+          var chatRoom = await  _data.ChatRooms.FindAsync(chatRoomId);
+
+            var messagesDto = chatRoom.Messages;
+
+            var messages = _mapper.Map<List<Message>>(messagesDto);
+
+            return messages;
         }
     }   
     
