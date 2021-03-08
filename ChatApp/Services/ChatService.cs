@@ -158,14 +158,19 @@ namespace ChatApp.Services
         public async Task SendMessageAsync(Message message,string chatId)
         {
 
-          var chatRoom = await   _data.ChatRooms.FindAsync(chatId);
+            var chatRoom = await _data.ChatRooms.Include(x => x.Messages).FirstOrDefaultAsync(x => x.Id == chatId);
 
-            var messageDto = _mapper.Map<MessageDto>(message);
-            chatRoom.Messages.Add(messageDto);
-            chatRoom.LastActivityDate = messageDto.SendDate;
-            await _data.SaveChangesAsync();
-            var serializedMessage = JsonSerializer.Serialize(message);
-            await _chathub.Clients.Group(chatId).SendAsync("receiveMessage", message);
+            if(chatRoom is not null)
+            {
+                var messageDto = _mapper.Map<MessageDto>(message);
+                chatRoom.Messages.Add(messageDto);
+                chatRoom.LastActivityDate = messageDto.SendDate;
+                await _data.SaveChangesAsync();
+                var serializedMessage = JsonSerializer.Serialize(message);
+                await _chathub.Clients.Group(chatId).SendAsync("receiveMessage", message);
+            }
+
+           
 
         }
 
@@ -186,6 +191,18 @@ namespace ChatApp.Services
             var messages = _mapper.Map<List<Message>>(messagesDto);
 
             return messages;
+        }
+
+        public async Task<List<string>> GetChatRoomsUsersAsync(string chatRoomId)
+        {
+            var chatRoom =await _data.ChatRooms.Include(x => x.Users).FirstOrDefaultAsync(x => x.Id == chatRoomId);
+            List<string> users = new List<string>();
+
+            foreach(var user in chatRoom.Users)
+            {
+                users.Add(user.Name);
+            }
+            return users;
         }
     }   
     

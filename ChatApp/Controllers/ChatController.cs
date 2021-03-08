@@ -38,6 +38,14 @@ namespace ChatApp.Controllers
             _mapper = mapper;
         }
 
+        [HttpGet(ApiRoutes.Chat.GetChatUsers)]
+
+        public async Task<IActionResult>GetChatUsers([FromQuery]string chatRoomId)
+        {
+          var result = await  _chatService.GetChatRoomsUsersAsync(chatRoomId);
+
+            return Ok(result);
+        }
         [HttpGet(ApiRoutes.Chat.ConnectChats)]
         public async Task<IActionResult>ConnectChat([FromQuery] string connectionId)
         {

@@ -26,7 +26,8 @@ namespace ChatApp.Contracts
             public const string JoinChat = BaseChat +  "joinChat";
             public const string CreateChat = BaseChat + "createChat";
             public const string ConnectChats = BaseChat + "connectChats";
-            public const string GetChats = BaseChat + "getChats";   
+            public const string GetChats = BaseChat + "getChats";
+            public const string GetChatUsers = BaseChat + "getChatUsers";
         }
 
         public static class User

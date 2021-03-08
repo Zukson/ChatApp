@@ -10,6 +10,7 @@ import {ChatUserModel} from '../../models/chat-user-model';
 import { UserService } from '../user/user.service';
 import { ChatResponse } from 'src/app/apiResponses/chat-response';
 import { request } from 'http';
+import { UserModel } from 'src/app/models/user-model';
 
 @Injectable({
   providedIn: 'root'
@@ -123,18 +124,53 @@ return chatRooms;
    return  this._httpClient.post<ChatResponse>(environment.chat.createChat,request,{headers:headers})
   }
 
-  getChatUsers(chatRoomId)
+  sendMessage(chatId,text):void
+  {
+    let requestBody = {ChatId:chatId,Message:text};
+    let headers = this._identityService.authorizeClient();
+
+    this._httpClient.post(environment.chat.sendMessage,requestBody,{headers:headers}).subscribe(response=>{
+      console.log('Send MEssage response',response)
+    })
+  }
+  getChatUsers(chatRoomId) :ChatUserModel[]
 
   {
+    let users:ChatUserModel[]=[]
     let params = new HttpParams().set('chatRoomId', chatRoomId);
     let headers= this._identityService.authorizeClient();
 
      this._httpClient.get(environment.chat.getChatUsers,{headers:headers,params:params}).subscribe(response=>
       {
-        console.log(response);
+      
+        
+        console.log('getChatsUsers',response);
+
+       var usersResponse =<any[]>response;
+       usersResponse.forEach(username=>
+        {
+          this._userService.getUserThumbnail(username).subscribe(blob=>
+            {
+              let reader = new FileReader();
+
+              reader.readAsDataURL(blob)
+        
+              reader.onload=(event)=>{
+               
+               let userModel = <ChatUserModel>{Username:username,  UserThumbnail:event.target.result as string};
+
+               users.push(userModel);
+               console.log('ChatUser',userModel);
+              }
+            },err=>{
+              let userModel = <ChatUserModel>{Username:username,  UserThumbnail:'assets/default.png'};
+              console.log('ChatUser',userModel);
+              users.push(userModel);
+            })
+        })
       })
 
-    
+    return users;
   }
   receiveConId(conId)
   {
