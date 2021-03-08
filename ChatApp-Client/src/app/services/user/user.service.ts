@@ -46,15 +46,14 @@ getDefaultAvatar()
   }
   setUserAvatar(file)
   {
-    console.log('setuUserAvatar')
-    console.log(this._identityService.authorizeClient());
+  
     let headers = this._identityService.authorizeClient();
-    console.log(headers);
+   
     
    let formData =new FormData();
    formData.append('avatar',file)
     this._httpClient.post(environment.user.postAvatar,formData,{headers: headers}).subscribe(response=>{
-      console.log(response)
+     
      
     });
   }

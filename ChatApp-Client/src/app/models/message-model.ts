@@ -4,5 +4,5 @@ export interface MessageModel {
 
     ChatUser :ChatUserModel
     Text :string
-    Date :string
+   SendDate :string
 }

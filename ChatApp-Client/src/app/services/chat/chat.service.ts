@@ -11,6 +11,8 @@ import { UserService } from '../user/user.service';
 import { ChatResponse } from 'src/app/apiResponses/chat-response';
 import { request } from 'http';
 import { UserModel } from 'src/app/models/user-model';
+import { MessageResponse } from 'src/app/apiResponses/message-response';
+import { Message } from '@angular/compiler/src/i18n/i18n_ast';
 
 @Injectable({
   providedIn: 'root'
@@ -104,14 +106,14 @@ this._httpClient.get<any>(environment.chat.getChatRooms,{headers:headers}).subsc
 
 
   },error=>{
-    console.log('Get chatrooms err',error)
+  
   })
 return chatRooms;
   }
  
   createChatRoom( friendName:string) :Observable<ChatResponse>
   {
-    console.log('create chatrrom request')
+   
     let request :any= 
     {
       ConnectionId:this.connectionId,
@@ -120,7 +122,7 @@ return chatRooms;
        };
      let headers = this._identityService.authorizeClient();
          
-     console.log('cretechatrequest',request);
+    
    return  this._httpClient.post<ChatResponse>(environment.chat.createChat,request,{headers:headers})
   }
 
@@ -133,45 +135,25 @@ return chatRooms;
       console.log('Send MEssage response',response)
     })
   }
-  getChatUsers(chatRoomId) :ChatUserModel[]
+  getChatUsers(chatRoomId) :Observable<any[]>
 
   {
     let users:ChatUserModel[]=[]
     let params = new HttpParams().set('chatRoomId', chatRoomId);
     let headers= this._identityService.authorizeClient();
 
-     this._httpClient.get(environment.chat.getChatUsers,{headers:headers,params:params}).subscribe(response=>
-      {
-      
-        
-        console.log('getChatsUsers',response);
-
-       var usersResponse =<any[]>response;
-       usersResponse.forEach(username=>
-        {
-          this._userService.getUserThumbnail(username).subscribe(blob=>
-            {
-              let reader = new FileReader();
-
-              reader.readAsDataURL(blob)
-        
-              reader.onload=(event)=>{
-               
-               let userModel = <ChatUserModel>{Username:username,  UserThumbnail:event.target.result as string};
-
-               users.push(userModel);
-               console.log('ChatUser',userModel);
-              }
-            },err=>{
-              let userModel = <ChatUserModel>{Username:username,  UserThumbnail:'assets/default.png'};
-              console.log('ChatUser',userModel);
-              users.push(userModel);
-            })
-        })
-      })
-
-    return users;
+    return  this._httpClient.get<any[]>(environment.chat.getChatUsers,{headers:headers,params:params})
   }
+  getMessages(chatRoomId):Observable<any[]>
+  {
+    let headers = this._identityService.authorizeClient();
+  
+    let messages :MessageResponse[]=[];
+    let params = new HttpParams().set('chatRoomId', chatRoomId);
+  return   this._httpClient.get<any[]>(environment.chat.getMessages,{headers:headers,params:params})
+    
+  }
+
   receiveConId(conId)
   {
     console.log('received conId',conId);

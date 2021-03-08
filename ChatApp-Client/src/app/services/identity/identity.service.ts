@@ -18,10 +18,10 @@ export class IdentityService {
  jwtToken:''}
   constructor( private _httpClient:HttpClient) { 
 
-    console.log('identity constructor')
+  
     if(localStorage.getItem('jwtToken'))
     {
-      console.log('jwt is there')
+     
       this.isAuthorize=true;
     }
     
