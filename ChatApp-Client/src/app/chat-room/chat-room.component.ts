@@ -22,11 +22,16 @@ chatUsers:ChatUserModel[]=[];
   messages:MessageModel[] = [];
  chatroomId:string
  messageRequested =0;
+ isLoading = true;
   constructor(private activeRoute: ActivatedRoute,private router:Router,private _userService:UserService,private _chatService :ChatService) 
   { }
 
   ngOnInit(): void {
      
+    this._chatService.message.subscribe((msg)=>{
+      this.messageHandler(msg);
+
+    })
   
 
     this.activeRoute.params.subscribe(routeParams => {
@@ -59,7 +64,7 @@ chatUsers:ChatUserModel[]=[];
 
    let nickname=messageResponse.SenderName;
    console.log(nickname);
-    let user = this.chatUsers.find(x=>x.Username===nickname) 
+    let user = this.chatUsers.find(x=>x.Username==nickname) 
 
  
     let message = <MessageModel>{SendDate:messageResponse.SendDate,ChatUser:user,Text:messageResponse.Text}
@@ -86,12 +91,16 @@ chatUsers:ChatUserModel[]=[];
             this.chatUsers.push(chatUser);
            
           }
+          reader.onloadend=()=>{
 
+             this.isLoading=false;
+          }
         },error=>{
           let chatUser= <ChatUserModel>{Username:nickname,UserThumbnail:'assets/default.png' as string};
           this.chatUsers.push(chatUser);
                 console.log('error');   
                 this.getMessages()
+                this.isLoading=false;
         },()=>{
       
             console.log('observable complete');
@@ -102,12 +111,36 @@ chatUsers:ChatUserModel[]=[];
    
 
   }
+
+  messageHandler(msg)
+  {
+
+  console.log(msg.ChatId==this.chatroomId,'comprasion')
+  console.log(msg,'Message handler msg');
+  console.log(msg.ChatId)
+  console.log(this.chatroomId);
+
+
+    if(msg.ChatId ==this.chatroomId)
+    {
+      console.log('If IS TRUE');
+      let user =this.chatUsers.find(x=>x.Username==msg.SenderName);
+   
+      let message = <MessageModel>{ChatUser:user,Text:msg.Text,SendDate:msg.SendDate};
+      console.log('messageHandler',message)
+      this.messages.push(message);
+    }
+    else{
+      console.log('If is false')
+    }
+
+  }
   getMessages()
   {
     
   
 
-    if(this.messageRequested===0)
+    if(this.messageRequested==0)
     {
       this._chatService.getMessages(this.chatroomId).subscribe(response=>{
           

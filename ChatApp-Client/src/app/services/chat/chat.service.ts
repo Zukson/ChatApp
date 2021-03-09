@@ -13,6 +13,7 @@ import { request } from 'http';
 import { UserModel } from 'src/app/models/user-model';
 import { MessageResponse } from 'src/app/apiResponses/message-response';
 import { Message } from '@angular/compiler/src/i18n/i18n_ast';
+import { ClientMessage } from 'src/app/models/client-message';
 
 @Injectable({
   providedIn: 'root'
@@ -22,14 +23,14 @@ export class ChatService {
   chatRooms:Subject<ChatRoomModel>
   connectionId:string;
   
-  message:Subject<string>
+  message:Subject<ClientMessage>
 
   
   connection
   constructor(private _identityService:IdentityService,public _userService:UserService,private _httpClient:HttpClient) { 
 
     this.chatRooms= new Subject<ChatRoomModel>();
-    this.message=new Subject<string>();
+    this.message=new Subject<ClientMessage>();
    
       this.connection= new
       
@@ -38,7 +39,8 @@ export class ChatService {
       // this.connection.start().then(()=>console.log('Nawiazuje polaczenie')).catch(err=>{console.log(err)});
     
        this.connection.on('receiveConnId',(conId)=>{this.receiveConId(conId)});
-       this.connection.on('chatCreated',(data)=>this.chatCreated(data));
+       this.connection.on('chatCreated',(data)=>this.chatCreated(data))
+       this.connection.on('receiveMessage',(msg)=>this.receiveMessage(msg));
     
    
  console.log('connection',this.connection)
@@ -165,7 +167,10 @@ return chatRooms;
   }
   receiveMessage(msg)
   {
-    this.message.next(msg);
+    console.log('otrzymano wiadomosc',msg);
+    let message = <ClientMessage>JSON.parse(msg);
+    console.log('message po rzutowaniu', message)
+    this.message.next(message);
   }
 
   logout()

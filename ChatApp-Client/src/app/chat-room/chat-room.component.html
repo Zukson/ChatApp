@@ -1,12 +1,15 @@
 
 
 
-<div *ngIf="messages.length==0" style="width: 100%; margin-top: 30px; margin-left:3% ; font-size: 25px; text-align: center;" >Write first Message</div>
-<div id="message" *ngFor="let message of this.messages " >
+<div *ngIf="messages.length==0 && !isLoading" style="width: 100%; margin-top: 30px; margin-left:3% ; font-size: 25px; text-align: center;" >Write first Message</div>
+<ng-container *ngIf="!isLoading">
+  <div id="message"   *ngFor="let message of this.messages " >
 
     <div class="messageHeader"><ngx-avatar [src]="message.ChatUser.UserThumbnail" [size]="40"></ngx-avatar> <h2>{{message.ChatUser.Username}}</h2> <span class="date">{{message.SendDate}}</span></div> 
   <div class="messageBody">{{message.Text}}</div>
 </div>
+</ng-container>
+
   
 
 <div class="messageInput">
