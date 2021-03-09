@@ -18,8 +18,9 @@ import { ChatService } from './services/chat/chat.service';
 import { ChatRoomComponent } from './chat-room/chat-room.component';
 import { RouterModule } from '@angular/router';
 
+import {MatSidenavModule} from '@angular/material/sidenav';
 
-
+import {ScrollingModule} from '@angular/cdk/scrolling';
 @NgModule({
   declarations: [
     AppComponent,
@@ -45,8 +46,9 @@ import { RouterModule } from '@angular/router';
     FormsModule,
     ReactiveFormsModule,
     AvatarModule,
-    HttpClientModule
-
+    HttpClientModule,
+    MatSidenavModule,
+    ScrollingModule
   ],
   providers: [ UserService,IdentityService,ChatService],
   bootstrap: [AppComponent]

@@ -96,6 +96,7 @@ this._httpClient.get<any>(environment.chat.getChatRooms,{headers:headers}).subsc
            chatRooms.push(chat);
           }
         },error=>{
+         
           let chatUser = <ChatUserModel>{Username:chatRoom.friendName,UserThumbnail:'assets/default.png'}
 
           let chat=  <ChatRoomModel>{ChatUser:chatUser,ChatId:chatRoom.chatRoomId,LastActivityDate:chatRoom.lastActivityDate}

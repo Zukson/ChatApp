@@ -32,8 +32,9 @@ export class MainComponent implements OnInit {
   }
 
   navigate(chatroom)
-  {
+    {
     this.router.navigate(['/main/chatRoom',chatroom.ChatId]);
+   
     
   }
 
