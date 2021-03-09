@@ -5,8 +5,11 @@
 <ng-container *ngIf="!isLoading">
   <div id="message"   *ngFor="let message of this.messages " >
 
-    <div class="messageHeader"><ngx-avatar [src]="message.ChatUser.UserThumbnail" [size]="40"></ngx-avatar> <h2>{{message.ChatUser.Username}}</h2> <span class="date">{{message.SendDate}}</span></div> 
-  <div class="messageBody">{{message.Text}}</div>
+  <ng-container *ngIf="message.ChatUser">
+      <div class="messageHeader " *ngIf="message.ChatUser"><ngx-avatar  [src]="message.ChatUser.UserThumbnail" [size]="40"></ngx-avatar> <h2>{{message.ChatUser.Username}}</h2> <span class="date">{{message.SendDate}}</span></div> 
+      <div class="messageBody">{{message.Text}}</div>
+  </ng-container>
+   
 </div>
 </ng-container>
 

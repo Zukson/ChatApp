@@ -23,6 +23,8 @@ chatUsers:ChatUserModel[]=[];
  chatroomId:string
  messageRequested =0;
  isLoading = true;
+
+
   constructor(private activeRoute: ActivatedRoute,private router:Router,private _userService:UserService,private _chatService :ChatService) 
   { }
 
@@ -41,6 +43,7 @@ chatUsers:ChatUserModel[]=[];
      this.messageRequested=0;
         this.chatUsers=<ChatUserModel[]>[]
         this.messages=<MessageModel[]>[]
+        this.isLoading=true;
      this._chatService.getChatUsers(this.chatroomId).subscribe(response=>{
        console.log(response,'getchatUsersResponseWhenRouterChange')
       this.getUsersChat(response);
@@ -77,36 +80,45 @@ chatUsers:ChatUserModel[]=[];
    
         
       
-      response.forEach(nickname=>{
-        console.log('SignleNick',nickname)
-        this._userService.getUserThumbnail(nickname).subscribe(blob=>{
-          let reader = new FileReader();
-
-          console.log('blob ktorzy pyszedl',blob)
-          reader.readAsDataURL(blob)
-    
-          reader.onload=(event)=>{
-            let chatUser= <ChatUserModel>{Username:nickname,UserThumbnail:event.target.result as string}
-    
-            this.chatUsers.push(chatUser);
-           
-          }
-          reader.onloadend=()=>{
-
-             this.isLoading=false;
-          }
-        },error=>{
-          let chatUser= <ChatUserModel>{Username:nickname,UserThumbnail:'assets/default.png' as string};
-          this.chatUsers.push(chatUser);
-                console.log('error');   
-                this.getMessages()
-                this.isLoading=false;
-        },()=>{
+    for(let i=0;i<response.length;i++)
+    {
       
-            console.log('observable complete');
-            this.getMessages()
+      console.log('SignleNick',response[i])
+      this._userService.getUserThumbnail(response[i]).subscribe(blob=>{
+        let reader = new FileReader();
+
+        console.log('blob ktorzy pyszedl',blob)
+        reader.readAsDataURL(blob)
+  
+        reader.onload=(event)=>{
+          let chatUser= <ChatUserModel>{Username:response[i],UserThumbnail:event.target.result as string}
+  
+          this.chatUsers.push(chatUser);
+         
+        }
+        reader.onloadend=()=>{
+
+         
+           
+          
+            this.isLoading=false;
+           
+        }
+      },error=>{
+        let chatUser= <ChatUserModel>{Username:response[i],UserThumbnail:'assets/default.png' as string};
+        this.chatUsers.push(chatUser);
+              console.log('error');   
+              this.getMessages()
+              this.isLoading=false;
+      },()=>{
     
-      })
+          console.log('observable complete');
+          this.getMessages()
+  
+    })
+    }
+      response.forEach(nickname=>{
+       
       })
    
 
@@ -164,7 +176,7 @@ chatUsers:ChatUserModel[]=[];
     messages.forEach(message=>{
  
       
-
+          
     
 
       let mappedMessage : MessageModel={ ChatUser:this.chatUsers[0],Text:message.Text, SendDate:message.SendDate};
