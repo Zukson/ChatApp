@@ -79,10 +79,13 @@ namespace ChatApp.Controllers
             string username = HttpContext.User.Claims.GetClaimValue("name");
 
             var response = await _chatService.GetChatsAsync(username);
+         response.Chats =   response.Chats.OrderByDescending(x => x.LastActivityDate).ToList();
+           
             return Ok(response);
         }
 
-        public async Task<IActionResult > GetMessagesForChatRoom(string chatRoomId)
+        [HttpGet(ApiRoutes.Chat.GetMessages)]
+        public async Task<IActionResult > GetMessagesForChatRoom([FromQuery]string chatRoomId)
         {
             var messages =await  _chatService.GetMessagesAsync(chatRoomId);
 
@@ -90,11 +93,12 @@ namespace ChatApp.Controllers
             {
                 return BadRequest();
             }
+         var sortedMessages=  messages.OrderBy(x => x.SendDate);
             
-            var messagesResponse = messages.Select(x => new MessageReponse
+            var messagesResponse = sortedMessages.Select(x => new MessageReponse
            { 
                 SenderName = x.SenderName,
-                SendDate = x.SendDate, 
+                SendDate = x.SendDate.ToString(), 
                 Text = x.Text 
            });
 

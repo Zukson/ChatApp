@@ -8,6 +8,6 @@ namespace ChatApp.Contracts.Responses.Chat
     {
         public string Text { get; set; }
         public string SenderName { get; set; }
-        public DateTime SendDate { get; set; }
+        public string  SendDate { get; set; }
     }
 }

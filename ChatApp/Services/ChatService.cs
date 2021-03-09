@@ -166,8 +166,16 @@ namespace ChatApp.Services
                 chatRoom.Messages.Add(messageDto);
                 chatRoom.LastActivityDate = messageDto.SendDate;
                 await _data.SaveChangesAsync();
-                var serializedMessage = JsonSerializer.Serialize(message);
-                await _chathub.Clients.Group(chatId).SendAsync("receiveMessage", message);
+                ClientMessage messageToSend = new ClientMessage
+                {
+                    ChatId = chatId,
+                    Text = messageDto.Text,
+                    SendDate = messageDto.SendDate.ToString(),
+                    SenderName = messageDto.SenderName
+                };
+
+                var serializedMessage = JsonSerializer.Serialize(messageToSend);
+                await _chathub.Clients.Group(chatId).SendAsync("receiveMessage", serializedMessage);
             }
 
            
@@ -184,7 +192,7 @@ namespace ChatApp.Services
 
         public  async Task<List<Message>> GetMessagesAsync(string chatRoomId)
         {
-          var chatRoom = await  _data.ChatRooms.FindAsync(chatRoomId);
+          var chatRoom = await  _data.ChatRooms.Include(x=>x.Messages).FirstOrDefaultAsync(x=>x.Id==chatRoomId);
 
             var messagesDto = chatRoom.Messages;
 
@@ -202,6 +210,7 @@ namespace ChatApp.Services
             {
                 users.Add(user.Name);
             }
+            
             return users;
         }
     }   
