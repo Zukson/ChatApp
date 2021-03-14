@@ -13,6 +13,8 @@ namespace ChatApp.Files
 {
     public class ImageManager : IImageManager
     {
+        
+       
         private readonly ImageSettings _fileSsettings;
         private readonly IWebHostEnvironment _enviroment;
 
@@ -21,6 +23,7 @@ namespace ChatApp.Files
         private readonly string _avatarPath;
         private readonly string _thumbnailPath;
         const string baseDirectory = "Images";
+      
         public ImageManager(ImageSettings fileSettings,IWebHostEnvironment environment)
         {
             _fileSsettings = fileSettings;
@@ -28,8 +31,31 @@ namespace ChatApp.Files
             _tmpAvatarPath = Path.Combine(_enviroment.ContentRootPath, baseDirectory, _fileSsettings.TemporaryAvatarPath);
             _avatarPath = Path.Combine(_enviroment.ContentRootPath, baseDirectory, _fileSsettings.AvatarPath);
             _thumbnailPath = Path.Combine(_enviroment.ContentRootPath, baseDirectory, _fileSsettings.ThumbnailPath);
+            CreateFolders();
+
+
         }
-       private bool ImageExists(string path)
+        private void CreateFolders()
+
+        {
+            bool exists = System.IO.Directory.Exists((_tmpAvatarPath));
+
+            if (!exists)
+                System.IO.Directory.CreateDirectory((_tmpAvatarPath));
+
+            exists = System.IO.Directory.Exists((_avatarPath));
+            if (!exists)
+                System.IO.Directory.CreateDirectory((_avatarPath));
+
+
+            exists = System.IO.Directory.Exists((_thumbnailPath));
+            if (!exists)
+                System.IO.Directory.CreateDirectory((_thumbnailPath));
+
+
+        }
+
+        private bool ImageExists(string path)
         {
             return File.Exists(path);
         }

@@ -18,18 +18,18 @@ namespace ChatApp
         {
             var host = CreateHostBuilder(args).Build();
 
-            using(var scope = host.Services.CreateScope())
-            {
+            //using(var scope = host.Services.CreateScope())
+            //{
 
-                var ctx = scope.ServiceProvider.GetRequiredService<DataContext>();
+            //    var ctx = scope.ServiceProvider.GetRequiredService<DataContext>();
 
-                var identityService = scope.ServiceProvider.GetRequiredService<IIdentityService>();
+            //    var identityService = scope.ServiceProvider.GetRequiredService<IIdentityService>();
 
-               await  identityService.RegisterAsync("zukson", "zukson", "zukson@wp.pl");
-                await identityService.RegisterAsync("midnir", "midnir", "midnir@wp.pl");
+            //   await  identityService.RegisterAsync("zukson", "zukson", "zukson@wp.pl");
+            //    await identityService.RegisterAsync("midnir", "midnir", "midnir@wp.pl");
 
                
-            }
+            //}
 
             host.Run();
         }

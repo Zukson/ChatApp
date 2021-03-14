@@ -65,7 +65,7 @@ namespace ChatApp
             services.AddAutoMapper(typeof(Startup));
             services.AddCors(options =>
             {
-                options.AddPolicy("CorsPolicy", builder => builder.WithOrigins("http://localhost:4200")
+                options.AddPolicy("CorsPolicy", builder => builder.WithOrigins("http://localhost:4200", "http://localhost:80", "http://localhost")
                     .AllowAnyHeader()
                     .AllowAnyMethod()
                     .AllowCredentials());
@@ -86,7 +86,7 @@ namespace ChatApp
             {
                 option.RouteTemplate = swaggerSettings.SwaggerEndpoint;
             });
-
+            
             app.UseSwaggerUI(option =>
             {
                 option.SwaggerEndpoint(swaggerSettings.UIEndpoint, swaggerSettings.Description);

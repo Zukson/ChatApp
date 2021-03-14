@@ -1,0 +1,38 @@
+version: "3.9"
+services:
+ api:
+  build: .
+  ports:
+   - "8080:80"
+  volumes: 
+   - ./images:/var/images
+  
+  depends_on:
+    sql:
+      condition: service_healthy
+   
+ client:
+   build: ./ChatApp-Client/
+   ports: 
+     - "80:80/tcp"
+  depends_on:
+    - api 
+  
+ sql:
+
+  image: "mcr.microsoft.com/mssql/server:2019-latest"
+  env_file: 
+    - ./.env
+  environment:
+            SA_PASSWORD: "${SQLPASSWORD}"
+            ACCEPT_EULA: "Y"
+  ports:
+    - "1433:1433"
+  volumes: 
+    - ./sqlData/log:/var/opt/mssql/log
+    - ./sqlData/data:/var/opt/mssql/data
+    - ./sqlData/secrets:/var/opt/mssql/secrets 
+  healthcheck:
+      test: ["CMD", "/opt/mssql-tools/bin/sqlcmd", "-Usa", "-P${SQLPASSWORD}", "-Q", "select 1"]
+      interval: 2s
+      retries: 20

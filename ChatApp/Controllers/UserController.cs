@@ -46,6 +46,7 @@ namespace ChatApp.Controllers
             var mime = path.Split('.').Last();
             var output = _fileManager.GetThumbnail(username, mime);
 
+            
             return new FileContentResult(output, $"image/{mime}");
 
 

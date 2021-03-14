@@ -110,7 +110,7 @@ namespace ChatApp.Controllers
         public async Task<IActionResult> SendMessage([FromBody]SendMessageRequest messageRequest)
         {
             var name = ClaimsExtensions.GetClaimValue(HttpContext.User.Claims, "name");
-            var message = new Message { MessageId = Guid.NewGuid().ToString(), SenderName = name, SendDate = DateTime.UtcNow, Text = messageRequest.Message };
+            var message = new Message { MessageId = Guid.NewGuid().ToString(), SenderName = name, SendDate = DateTime.Now, Text = messageRequest.Message };
             await _chatService.SendMessageAsync(message, messageRequest.ChatId);
 
             var response = new SendMessageResponse { SenderName = message.SenderName, SendDate = message.SendDate, Text = message.Text };
