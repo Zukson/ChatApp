@@ -15,8 +15,8 @@ services:
    build: ./ChatApp-Client/
    ports: 
      - "80:80/tcp"
-  depends_on:
-    - api 
+   depends_on:
+     - api 
   
  sql:
 
