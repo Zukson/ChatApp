@@ -115,7 +115,7 @@ SuccesResponse(response:TokensModel)
   localStorage.setItem('refreshToken',this._identityService.tokens.refreshToken)
   localStorage.setItem('jwtToken',this._identityService.tokens.jwtToken);
   
-  
+  this._identityService.isAuthorize=true;
   console.log(this._identityService.tokens);
   if(this.avatar )
   {

@@ -5,10 +5,12 @@ import{RegisterComponent} from './register/register.component';
 import { ProfileComponent } from './profile/profile.component';
 import{MainComponent} from './main/main.component'
 import { ChatRoomComponent } from './chat-room/chat-room.component';
+import { AppComponent } from './app.component';
+import { GuardService } from './services/guard/guard.service';
 const routes: Routes = [{path:'register',component:RegisterComponent},
 {path:'login',component:LoginComponent},{
   path:'',component:LoginComponent},
-  {path:'main',component:MainComponent,children:[{path:'profile',component:ProfileComponent},{path:'',component:ProfileComponent},  {path:'chatRoom/:id',component:ChatRoomComponent} ]},
+  {path:'main',component:MainComponent,children:[{path:'profile',component:ProfileComponent},{path:'',component:ProfileComponent},  {path:'chatRoom/:id',component:ChatRoomComponent} ],canActivate:[GuardService]},
  
 
 ];

@@ -3,6 +3,7 @@ import { ChatRoomModel } from 'src/app/models/chat-room-model';
 import { ChatUserModel } from 'src/app/models/chat-user-model';
 import { ChatService } from 'src/app/services/chat/chat.service';
 import { Router,  ParamMap } from '@angular/router';
+import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-search-user',
@@ -12,7 +13,7 @@ import { Router,  ParamMap } from '@angular/router';
 export class SearchUserComponent implements OnInit {
 friendName:string="";
  errorMessage="";
-  constructor( private _chatService:ChatService,private _router:Router) { }
+  constructor(private dialogRef:MatDialogRef<SearchUserComponent>, private _chatService:ChatService,private _router:Router) { }
  
   ngOnInit(): void {
   }
@@ -41,6 +42,7 @@ friendName:string="";
               this._chatService.chatRooms.next(chatRoom);
               
             this._router.navigate(['/main/chatRoom',response.chatRoomId]);
+            this.dialogRef.close();
             }
         },error=>{
           
@@ -49,6 +51,7 @@ friendName:string="";
           let chatRoom = <ChatRoomModel>{ChatId:response.chatRoomId,ChatUser:user,LastActivityDate:response.lastActivityDate}
           this._chatService.chatRooms.next(chatRoom); 
           this._router.navigate(['/main/chatRoom',response.chatRoomId]);
+          this.dialogRef.close();
         })
       let chatRoom = <ChatRoomModel>{}         
     },error=>{

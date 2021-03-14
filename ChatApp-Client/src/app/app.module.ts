@@ -21,6 +21,7 @@ import { RouterModule } from '@angular/router';
 import {MatSidenavModule} from '@angular/material/sidenav';
 
 import {ScrollingModule} from '@angular/cdk/scrolling';
+import { GuardService } from './services/guard/guard.service';
 @NgModule({
   declarations: [
     AppComponent,
@@ -50,7 +51,7 @@ import {ScrollingModule} from '@angular/cdk/scrolling';
     MatSidenavModule,
     ScrollingModule
   ],
-  providers: [ UserService,IdentityService,ChatService],
+  providers: [ UserService,IdentityService,ChatService,GuardService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
