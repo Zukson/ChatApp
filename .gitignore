@@ -349,8 +349,10 @@ MigrationBackup/
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
 
-#Docker
-.env
+#Data
+sqlData
 ChatApp/Images/Avatars
 ChatApp/Images/TemporaryAvatars
 ChatApp/Images/Thumbnails
+#Docker
+.env
