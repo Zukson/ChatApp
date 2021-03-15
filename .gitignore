@@ -349,6 +349,8 @@ MigrationBackup/
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
 
+ChatApp/appsettings.Production.json
+ChatApp/appsettings.Development.json
 #Data
 sqlData
 ChatApp/Images/Avatars
