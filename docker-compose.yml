@@ -5,7 +5,9 @@ services:
   ports:
    - "8080:80"
   volumes: 
-   - ./images:/var/images
+   - ./images/avatars:/app/Images/Avatars
+   - ./images/temporaryAvatars:/app/Images/TemporaryAvatars
+   - ./images/thumbnails:/app/Images/Thumbnails
   
   depends_on:
     sql:
